@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "xipackets-definitions"
+version = "1.0.0"
+description = "FFXI packet definitions parser"
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+libclang = "^18.1.1"
+jinja2 = "3.1.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
