@@ -1,0 +1,64 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.7.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev
+
+      - name: Install project dependencies
+        run: poetry install --no-interaction
+
+      - name: Run packet parser
+        run: poetry run python parse_clang.py
+
+      - name: Create zip archive
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          cd generated
+          zip -r ../xipackets.zip ./*
+          cd ..
+
+      - name: Delete existing release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes || true
+
+      - name: Create/Update Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create latest \
+            --title "Latest Generated Files" \
+            --notes "Automatically generated packet definitions - Last updated $(date -u +'%Y-%m-%d %H:%M:%S UTC')" \
+            --target ${{ github.sha }} \
+            xipackets.zip

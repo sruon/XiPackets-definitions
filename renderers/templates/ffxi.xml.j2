@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<version client=""/>
+	<templates>
+  </templates>
+	<tools>
+  </tools>
+	<rule>
+		<server port="0" name="Game"/>
+		<decryptor name=""/>
+                <s2c>
+{%- for packet in s2c_packets %}
+			<packet type="{{ packet.id }}" desc="{{ packet.name }}">
+{%- for field in packet.fields %}
+{%- if field.is_union is defined and field.is_union %}
+{%- for case in field.cases %}
+				<ifeq arg1="#{{ field.discriminator }}" arg2="{{ case.value }}">
+{%- for case_field in case.fields %}
+					<data type="{{ case_field.xml_type }}" name="{{ case_field.name }}"{% if case_field.bits %} bits="{{ case_field.bits }}"{% endif %}{% if case_field.arg %} arg="{{ case_field.arg }}"{% endif %}{% if case_field.lookup %} lookup="{{ case_field.lookup }}"{% endif %} style="normal"/>
+{%- endfor %}
+				</ifeq>
+{%- endfor %}
+{%- else %}
+				<data type="{{ field.xml_type }}" name="{{ field.name }}"{% if field.bits %} bits="{{ field.bits }}"{% endif %}{% if field.arg %} arg="{{ field.arg }}"{% endif %}{% if field.lookup %} lookup="{{ field.lookup }}"{% endif %} style="normal"/>
+{%- endif %}
+{%- endfor %}
+			</packet>
+{%- endfor %}
+                </s2c>
+                 <c2s>
+{%- for packet in c2s_packets %}
+			<packet type="{{ packet.id }}" desc="{{ packet.name }}">
+{%- for field in packet.fields %}
+{%- if field.is_union is defined and field.is_union %}
+{%- for case in field.cases %}
+				<ifeq arg1="#{{ field.discriminator }}" arg2="{{ case.value }}">
+{%- for case_field in case.fields %}
+					<data type="{{ case_field.xml_type }}" name="{{ case_field.name }}"{% if case_field.bits %} bits="{{ case_field.bits }}"{% endif %}{% if case_field.arg %} arg="{{ case_field.arg }}"{% endif %}{% if case_field.lookup %} lookup="{{ case_field.lookup }}"{% endif %} style="normal"/>
+{%- endfor %}
+				</ifeq>
+{%- endfor %}
+{%- else %}
+				<data type="{{ field.xml_type }}" name="{{ field.name }}"{% if field.bits %} bits="{{ field.bits }}"{% endif %}{% if field.arg %} arg="{{ field.arg }}"{% endif %}{% if field.lookup %} lookup="{{ field.lookup }}"{% endif %} style="normal"/>
+{%- endif %}
+{%- endfor %}
+			</packet>
+{%- endfor %}
+                  </c2s>
+	</rule>
+</root>
