@@ -9,7 +9,7 @@ struct GP_CLI_COMMAND_LOGIN {
   uint8_t padding00;
   uint16_t unknown00;
   uint32_t unknown01;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint16_t GrapIDTbl[9];
   char sName[15];
   char sAccount[15];
@@ -86,7 +86,7 @@ struct GP_CLI_COMMAND_POS {
   uint8_t RunMode : 1;
   uint8_t GroundMode : 1;
   uint8_t unused : 5;
-  uint16_t facetarget;
+  uint16_t facetarget; // lookup="@actindex"
   uint32_t TimeNow;
   uint32_t padding00;
 };
@@ -107,8 +107,8 @@ struct GP_CLI_COMMAND_CHARREQ2 {
   uint16_t sync;
   uint16_t ActIndex;
   uint16_t padding00;
-  uint32_t UniqueNo2;     // lookup="@UniqueNo"
-  uint32_t UniqueNo3;     // lookup="@UniqueNo"
+  uint32_t UniqueNo2; // lookup="@uniqueno"
+  uint32_t UniqueNo3; // lookup="@uniqueno"
   uint16_t Flg;
   uint16_t Flg2;
 };
@@ -118,8 +118,8 @@ struct GP_CLI_COMMAND_ACTION {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t ActionID;
   uint32_t ActionBuf[4];
 };
@@ -156,7 +156,7 @@ struct GP_CLI_COMMAND_GMCOMMAND {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t GMUniqueNo;    // lookup="@UniqueNo"
+  uint32_t GMUniqueNo; // lookup="@uniqueno"
   uint8_t Command[128];
 };
 
@@ -217,8 +217,8 @@ struct GP_CLI_COMMAND_ITEM_TRADE_REQ {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
 };
 
@@ -257,10 +257,10 @@ struct GP_CLI_COMMAND_ITEM_TRANSFER {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t ItemNumTbl[10];
   uint8_t PropertyItemIndexTbl[10];
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t ItemNum;
   uint8_t padding00[3];
 };
@@ -270,9 +270,9 @@ struct GP_CLI_COMMAND_ITEM_USE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t ItemNum;
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t PropertyItemIndex;
   uint8_t padding00;
   uint32_t Category; // lookup="containers"
@@ -482,9 +482,9 @@ struct GP_CLI_COMMAND_EVENTEND {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t EndPara;
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t Mode;
   uint16_t EventNum;
   uint16_t EventPara;
@@ -498,11 +498,11 @@ struct GP_CLI_COMMAND_EVENTENDXZY {
   float x;
   float y;
   float z;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t EndPara;
   uint16_t EventNum;
   uint16_t EventPara;
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Mode;
   int8_t dir;
 };
@@ -512,8 +512,8 @@ struct GP_CLI_COMMAND_MOTION {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Number;
   uint8_t Mode;
   uint16_t Param;
@@ -539,8 +539,8 @@ struct GP_CLI_COMMAND_PASSWARDS {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
   uint8_t String[16];
 };
@@ -559,9 +559,9 @@ struct GP_CLI_COMMAND_DIG {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t para;
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t mode;
   uint8_t padding00;
 };
@@ -571,9 +571,9 @@ struct GP_CLI_COMMAND_SCENARIOITEM {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint32_t LookItemFlag[16];
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t TableIndex;
 };
 
@@ -582,8 +582,8 @@ struct GP_CLI_COMMAND_GROUP_SOLICIT_REQ {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
 };
@@ -609,8 +609,8 @@ struct GP_CLI_COMMAND_GROUP_STRIKE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
   uint8_t sName[15];
@@ -621,8 +621,8 @@ struct GP_CLI_COMMAND_GROUP_KICK {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
   uint8_t sName[15];
@@ -633,8 +633,8 @@ struct GP_CLI_COMMAND_GROUP_CHANGE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t ChangeKind;
 };
@@ -1044,7 +1044,7 @@ struct GP_CLI_COMMAND_PRIVATE_DUNGEON {
   uint16_t Param1;
   uint8_t Param2;
   uint8_t padding00[3];
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   uint8_t Data[24];
 };
 
@@ -1098,8 +1098,8 @@ struct GP_CLI_COMMAND_EQUIP_INSPECT {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint32_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint32_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00[3];
 };
@@ -1144,7 +1144,7 @@ struct GP_CLI_COMMAND_GET_LSMSG {
   uint8_t ItemIndex;
   uint8_t padding00[2];
   uint16_t seqId;
-  uint32_t uniqNo;        // lookup="@UniqueNo"
+  uint32_t uniqNo; // lookup="@uniqueno"
   uint8_t sMessage[128];
 };
 
@@ -1166,7 +1166,7 @@ struct GP_CLI_COMMAND_SET_LSMSG {
   uint8_t ItemIndex;
   uint8_t padding00[2];
   uint16_t seqId;
-  uint32_t uniqNo;        // lookup="@UniqueNo"
+  uint32_t uniqNo; // lookup="@uniqueno"
   uint8_t sMessage[128];
 };
 
@@ -1188,7 +1188,7 @@ struct GP_CLI_COMMAND_GET_LSPRIV {
   uint8_t ItemIndex;
   uint8_t padding00[2];
   uint16_t seqId;
-  uint32_t uniqNo;        // lookup="@UniqueNo"
+  uint32_t uniqNo; // lookup="@uniqueno"
   uint8_t sMessage[128];
 };
 
@@ -1214,8 +1214,8 @@ struct GP_CLI_COMMAND_GLOBALUNIQUENO_REQ {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
 };
 
@@ -1477,9 +1477,9 @@ struct GP_CLI_COMMAND_FISHING {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint32_t UniqueNo; // lookup="@uniqueno"
   int32_t para;
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t ActIndex; // lookup="@actindex"
   int8_t mode;
   uint8_t padding00;
   int32_t para2;
@@ -1563,8 +1563,8 @@ struct GP_CLI_COMMAND_PARTYREQUEST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
 };
@@ -1574,7 +1574,7 @@ struct GP_CLI_COMMAND_JUMP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t padding00[2];
 };

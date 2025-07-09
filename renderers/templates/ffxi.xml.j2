@@ -17,11 +17,21 @@
 				<ifeq arg1="#{{ field.discriminator }}" arg2="{{ case.value }}">
 {%- for case_field in case.fields %}
 					<data type="{{ case_field.xml_type }}" name="{{ case_field.name }}"{% if case_field.bits %} bits="{{ case_field.bits }}"{% endif %}{% if case_field.arg %} arg="{{ case_field.arg }}"{% endif %}{% if case_field.lookup %} lookup="{{ case_field.lookup }}"{% endif %} style="normal"/>
+{%- if case_field.save %}
+{%- for save_hint in case_field.save %}
+					<lookup save="{{ save_hint }}" source="{{ save_hint[1:] }}" val="{{ case_field.name }}"/>
+{%- endfor %}
+{%- endif %}
 {%- endfor %}
 				</ifeq>
 {%- endfor %}
 {%- else %}
 				<data type="{{ field.xml_type }}" name="{{ field.name }}"{% if field.bits %} bits="{{ field.bits }}"{% endif %}{% if field.arg %} arg="{{ field.arg }}"{% endif %}{% if field.lookup %} lookup="{{ field.lookup }}"{% endif %} style="normal"/>
+{%- if field.save %}
+{%- for save_hint in field.save %}
+				<lookup save="{{ save_hint }}" source="{{ save_hint[1:] }}" val="{{ field.name }}"/>
+{%- endfor %}
+{%- endif %}
 {%- endif %}
 {%- endfor %}
 			</packet>
@@ -36,11 +46,21 @@
 				<ifeq arg1="#{{ field.discriminator }}" arg2="{{ case.value }}">
 {%- for case_field in case.fields %}
 					<data type="{{ case_field.xml_type }}" name="{{ case_field.name }}"{% if case_field.bits %} bits="{{ case_field.bits }}"{% endif %}{% if case_field.arg %} arg="{{ case_field.arg }}"{% endif %}{% if case_field.lookup %} lookup="{{ case_field.lookup }}"{% endif %} style="normal"/>
+{%- if case_field.save %}
+{%- for save_hint in case_field.save %}
+					<lookup save="{{ save_hint }}" source="{{ save_hint[1:] }}" val="{{ case_field.name }}"/>
+{%- endfor %}
+{%- endif %}
 {%- endfor %}
 				</ifeq>
 {%- endfor %}
 {%- else %}
 				<data type="{{ field.xml_type }}" name="{{ field.name }}"{% if field.bits %} bits="{{ field.bits }}"{% endif %}{% if field.arg %} arg="{{ field.arg }}"{% endif %}{% if field.lookup %} lookup="{{ field.lookup }}"{% endif %} style="normal"/>
+{%- if field.save %}
+{%- for save_hint in field.save %}
+				<lookup save="{{ save_hint }}" source="{{ save_hint[1:] }}" val="{{ field.name }}"/>
+{%- endfor %}
+{%- endif %}
 {%- endif %}
 {%- endfor %}
 			</packet>

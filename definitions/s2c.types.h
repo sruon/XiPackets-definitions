@@ -65,8 +65,8 @@ enum GP_GAME_ECODE {
 
 // Structures for 0x000A LOGIN packet
 struct _GP_SERV_POS_HEAD {
-  uint32_t UniqueNo;    // lookup="@UniqueNo"
-  uint16_t ActIndex;    // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t padding00;
   int8_t dir;
   float x;
@@ -270,8 +270,8 @@ enum SAVE_EQUIP_KIND {
 
 // Structures for 0x00C8 GROUP_TBL packet
 struct GROUP_TBL {
-  uint32_t UniqueNo;    // lookup="@UniqueNo"
-  uint16_t ActIndex;    // lookup="@ActIndex"
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t PartyNo : 2;
   uint8_t PartyLeaderFlg : 1;
   uint8_t AllianceLeaderFlg : 1;
@@ -286,8 +286,8 @@ struct GROUP_TBL {
 
 // Structures for 0x00C9 EQUIP_INSPECT packet
 struct _GP_SERV_EQUIP_INSPECT_HDR {
-  uint32_t UniqNo;      // lookup="@UniqueNo"
-  uint16_t ActIndex;    // lookup="@ActIndex"
+  uint32_t UniqNo;   // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t OptionFlag;
 };
 
@@ -312,13 +312,13 @@ struct GP_GROUP_ATTR {
 
 // Structures for tracking packets
 struct GP_TRACKING {
-  uint32_t ActIndex : 16;
+  uint32_t ActIndex : 16; // lookup="@actindex"
   uint32_t Level : 8;
   uint32_t Type : 3;
   uint32_t unused : 5;
   int16_t x;
   int16_t z;
-  char sName[16];
+  char sName[16]; // save="@ActIndex"
 };
 
 enum GP_TRACKING_POS_STATE {
@@ -363,7 +363,7 @@ enum GP_BAZAAR_SHOPPING_STATE {
 
 // Structures for guild packets
 struct _GP_GUILD_ITEM {
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t Count;
   uint8_t Max;
   int32_t Price;
@@ -371,7 +371,7 @@ struct _GP_GUILD_ITEM {
 
 struct GP_SHOP {
   uint32_t ItemPrice;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ShopIndex;
   uint8_t padding00;
   uint16_t Skill;
@@ -511,7 +511,7 @@ struct GP_AUC_BOX {
   uint8_t ItemIndex;
   uint8_t padding01;
   char Name[16];
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ItemQuantity;
   uint8_t ItemCategory;
   uint32_t Price;
@@ -529,25 +529,25 @@ struct GP_AUC_PARAM_LOT {
 
 struct GP_AUC_PARAM_BID {
   uint32_t BidPrice;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t padding00;
   uint32_t ItemStacks;
 };
 
 struct GP_AUC_PARAM_SUMMARY {
   uint32_t Kind;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
 };
 
 struct GP_AUC_PARAM_HISTORY {
   uint32_t Range;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
 };
 
 struct GP_AUC_PARAM_ASKCOMMIT {
   uint32_t Commission;
   uint16_t ItemWorkIndex;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint32_t ItemStacks;
 };
 
@@ -596,7 +596,7 @@ struct GC_PBOX {
 struct GP_POST_BOX_STATE {
   uint32_t Stat;
   GC_PBOX box_state;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t padding00;
   int32_t Kind;
   uint32_t Stack;
@@ -604,15 +604,15 @@ struct GP_POST_BOX_STATE {
 };
 
 typedef struct {
-  uint16_t ActIndex;
-  uint32_t UniqueNo;    // lookup="@UniqueNo"
-  uint16_t ActIndexFellow; // lookup="@ActIndex"
+  uint16_t ActIndex;       // lookup="@actindex"
+  uint32_t UniqueNo;       // lookup="@uniqueno"
+  uint16_t ActIndexFellow; // lookup="@actindex"
   uint16_t padding00;
   uint32_t NameFlags;
   uint32_t NameIcon;
   uint32_t CustomProperties;
   uint32_t unknown1C;
-  uint32_t UniqueNoMog; // lookup="@UniqueNo"
+  uint32_t UniqueNoMog; // lookup="@uniqueno"
   uint8_t MogHouseFlag;
   uint8_t mjob_lv;
   uint8_t unknown26;
@@ -620,22 +620,22 @@ typedef struct {
 } _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_2;
 
 typedef struct {
-  uint16_t ActIndex;
-  uint32_t UniqueNo;    // lookup="@UniqueNo"
-  uint16_t ActIndexTrustOwner; // lookup="@ActIndex"
+  uint16_t ActIndex;           // lookup="@actindex"
+  uint32_t UniqueNo;           // lookup="@uniqueno"
+  uint16_t ActIndexTrustOwner; // lookup="@actindex"
   uint16_t padding00;
   uint32_t NameFlags;
   char Name[15];
 } _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_3;
 
 typedef struct {
-  uint16_t ActIndex;
-  uint32_t UniqueNo;    // lookup="@UniqueNo"
-  uint16_t ActIndexOwner; // lookup="@ActIndex"
+  uint16_t ActIndex;      // lookup="@actindex"
+  uint32_t UniqueNo;      // lookup="@uniqueno"
+  uint16_t ActIndexOwner; // lookup="@actindex"
   uint8_t Hpp;
   uint8_t Mpp;
   uint32_t Tp;
-  uint32_t UniqueNoTarget; // lookup="@UniqueNo"
+  uint32_t UniqueNoTarget; // lookup="@uniqueno"
   char Name[15];
 } _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4;
 

@@ -44,14 +44,21 @@ def _extract_hint(field):
         comment = line.split('//')[1].strip()
         hints = {}
 
-        # Parse key="value" pairs
+        # Parse key="value" pairs, allowing multiple values for the same key
         for match in re.finditer(r'(\w+)="([^"]+)"', comment):
-            hints[match.group(1)] = match.group(2)
+            key, value = match.group(1), match.group(2)
+            if key in hints:
+                if not isinstance(hints[key], list):
+                    hints[key] = [hints[key]]
+                hints[key].append(value)
+            else:
+                hints[key] = value
 
         # Parse key=value pairs (without quotes)
         for match in re.finditer(r'(\w+)=(\w+)', comment):
-            if match.group(1) not in hints:  # Don't override quoted values
-                hints[match.group(1)] = match.group(2)
+            key, value = match.group(1), match.group(2)
+            if key not in hints:  # Don't override quoted values
+                hints[key] = value
 
         # Parse standalone keywords
         words = re.findall(r'\b\w+\b', comment)

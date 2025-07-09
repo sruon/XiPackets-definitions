@@ -35,6 +35,7 @@ class ProcessedField:
         self.bytes: int = field.bytes
         self.xml_type: str = self._determine_type(field)
         self.lookup: Optional[str] = self._determine_lookup(field)
+        self.save: Optional[List[str]] = self._determine_save(field)
         self.arg: Optional[str] = self._determine_arg(field)
         self.bits: Optional[int] = getattr(field, "bits", None)
         self.is_union_type: bool = (
@@ -122,6 +123,15 @@ class ProcessedField:
     ) -> Optional[str]:
         hints = getattr(field, "hints", {}) or {}
         return hints.get("lookup")
+
+    def _determine_save(
+        self, field: Union[StructField, BitField, PositionField]
+    ) -> Optional[List[str]]:
+        hints = getattr(field, "hints", {}) or {}
+        save = hints.get("save")
+        if save is None:
+            return None
+        return [save] if isinstance(save, str) else save
 
     def _determine_arg(
         self, field: Union[StructField, BitField, PositionField]
@@ -221,6 +231,8 @@ class FFXIXmlRenderer:
             result["bits"] = field.bits
         if field.lookup:
             result["lookup"] = field.lookup
+        if field.save:
+            result["save"] = field.save
         if field.arg:
             result["arg"] = field.arg
 
