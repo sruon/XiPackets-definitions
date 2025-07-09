@@ -42,7 +42,7 @@ struct GP_SERV_COMMAND_LOGIN {
   uint16_t size : 7;
   uint16_t sync;
   _GP_SERV_POS_HEAD PosHead;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
   uint32_t ntTime;
   uint32_t ntTimeSec;
   uint32_t GameTime;
@@ -456,7 +456,7 @@ struct GP_SERV_COMMAND_CHANNEL_STATE {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueNo;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
   uint32_t IP;
   uint16_t ActIndex;
   uint16_t Port;
@@ -1395,7 +1395,7 @@ struct GP_SERV_COMMAND_MAP_GROUP {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueID;
-  int16_t zone;
+  int16_t zone; // lookup="zones"
   uint16_t padding00;
   float x;
   float y;
@@ -1593,7 +1593,7 @@ struct GP_SERV_COMMAND_GROUP_LIST {
   uint8_t Hpp;
   uint8_t Mpp;
   uint8_t padding00;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint8_t mjob_no;
   uint8_t mjob_lv;
   uint8_t sjob_no;
@@ -1626,7 +1626,7 @@ struct GP_SERV_COMMAND_GROUP_ATTR {
   uint8_t Mpp;
   uint8_t Kind;
   uint8_t MoghouseFlg;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint16_t MonstrosityFlag;
   uint16_t MonstrosityNameId;
   uint8_t mjob_no;
@@ -1673,7 +1673,7 @@ struct GP_SERV_COMMAND_GROUP_LIST2 {
   uint8_t Hpp;
   uint8_t Mpp;
   uint8_t padding00;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint8_t mjob_no;
   uint8_t mjob_lv;
   uint8_t sjob_no;

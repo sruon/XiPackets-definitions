@@ -25,7 +25,7 @@ struct GP_CLI_COMMAND_LOGOUT {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
   uint32_t MapNo;
   int32_t x;
   int32_t y;
@@ -999,7 +999,7 @@ struct GP_CLI_COMMAND_MAP_GROUP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
 };
 
 /// 0x00D3
