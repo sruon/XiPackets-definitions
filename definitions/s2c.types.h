@@ -65,8 +65,8 @@ enum GP_GAME_ECODE {
 
 // Structures for 0x000A LOGIN packet
 struct _GP_SERV_POS_HEAD {
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;    // lookup="@UniqueNo"
+  uint16_t ActIndex;    // lookup="@ActIndex"
   uint8_t padding00;
   int8_t dir;
   float x;
@@ -270,8 +270,8 @@ enum SAVE_EQUIP_KIND {
 
 // Structures for 0x00C8 GROUP_TBL packet
 struct GROUP_TBL {
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;    // lookup="@UniqueNo"
+  uint16_t ActIndex;    // lookup="@ActIndex"
   uint8_t PartyNo : 2;
   uint8_t PartyLeaderFlg : 1;
   uint8_t AllianceLeaderFlg : 1;
@@ -286,8 +286,8 @@ struct GROUP_TBL {
 
 // Structures for 0x00C9 EQUIP_INSPECT packet
 struct _GP_SERV_EQUIP_INSPECT_HDR {
-  uint32_t UniqNo;
-  uint16_t ActIndex;
+  uint32_t UniqNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;    // lookup="@ActIndex"
   uint8_t OptionFlag;
 };
 
@@ -605,14 +605,14 @@ struct GP_POST_BOX_STATE {
 
 typedef struct {
   uint16_t ActIndex;
-  uint32_t UniqueNo;
-  uint16_t ActIndexFellow;
+  uint32_t UniqueNo;    // lookup="@UniqueNo"
+  uint16_t ActIndexFellow; // lookup="@ActIndex"
   uint16_t padding00;
   uint32_t NameFlags;
   uint32_t NameIcon;
   uint32_t CustomProperties;
   uint32_t unknown1C;
-  uint32_t UniqueNoMog;
+  uint32_t UniqueNoMog; // lookup="@UniqueNo"
   uint8_t MogHouseFlag;
   uint8_t mjob_lv;
   uint8_t unknown26;
@@ -621,8 +621,8 @@ typedef struct {
 
 typedef struct {
   uint16_t ActIndex;
-  uint32_t UniqueNo;
-  uint16_t ActIndexTrustOwner;
+  uint32_t UniqueNo;    // lookup="@UniqueNo"
+  uint16_t ActIndexTrustOwner; // lookup="@ActIndex"
   uint16_t padding00;
   uint32_t NameFlags;
   char Name[15];
@@ -630,12 +630,12 @@ typedef struct {
 
 typedef struct {
   uint16_t ActIndex;
-  uint32_t UniqueNo;
-  uint16_t ActIndexOwner;
+  uint32_t UniqueNo;    // lookup="@UniqueNo"
+  uint16_t ActIndexOwner; // lookup="@ActIndex"
   uint8_t Hpp;
   uint8_t Mpp;
   uint32_t Tp;
-  uint32_t UniqueNoTarget;
+  uint32_t UniqueNoTarget; // lookup="@UniqueNo"
   char Name[15];
 } _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4;
 

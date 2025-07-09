@@ -95,8 +95,8 @@ struct GP_SERV_COMMAND_CHAR_PC {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   sendflags_t SendFlg;
   uint8_t dir;
   float x;
@@ -115,7 +115,7 @@ struct GP_SERV_COMMAND_CHAR_PC {
   uint8_t BallistaInfo;
   flags4_t Flags4;
   uint32_t CustomProperties[2];
-  uint16_t PetActIndex;
+  uint16_t PetActIndex;   // lookup="@ActIndex"
   uint16_t MonstrosityFlags;
   uint8_t MonstrosityNameId1;
   uint8_t MonstrosityNameId2;
@@ -170,8 +170,8 @@ struct GP_SERV_COMMAND_CHAR_NPC {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   sendflags_t SendFlg;
   uint8_t dir;
   float x;
@@ -220,7 +220,7 @@ struct GP_SERV_COMMAND_GMCOMMAND {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t GMUniqueNo;
+  uint32_t GMUniqueNo;    // lookup="@UniqueNo"
   char Mes[128];
 };
 
@@ -229,8 +229,8 @@ struct GP_SERV_COMMAND_TELL {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t Attr;
   uint8_t padding00;
   char Str[128];
@@ -339,8 +339,8 @@ struct GP_SERV_COMMAND_ITEM_TRADE_REQ {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t padding00;
 };
 
@@ -349,9 +349,9 @@ struct GP_SERV_COMMAND_ITEM_TRADE_RES {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t Kind;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t padding00;
 };
 
@@ -392,8 +392,8 @@ struct GP_SERV_COMMAND_TALKNUMWORK2 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t MesNum;
   uint16_t Type;
   uint8_t Flags;
@@ -416,12 +416,12 @@ struct GP_SERV_COMMAND_BATTLE_MESSAGE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNoCas;
-  uint32_t UniqueNoTar;
+  uint32_t UniqueNoCas;   // lookup="@UniqueNo"
+  uint32_t UniqueNoTar;   // lookup="@UniqueNo"
   uint32_t Data;
   uint32_t Data2;
-  uint16_t ActIndexCas;
-  uint16_t ActIndexTar;
+  uint16_t ActIndexCas;   // lookup="@ActIndex"
+  uint16_t ActIndexTar;   // lookup="@ActIndex"
   uint16_t MessageNum;
   uint8_t Type;
   uint8_t padding00;
@@ -432,9 +432,8 @@ struct GP_SERV_COMMAND_TALKNUMWORK {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  int32_t num[4];
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t MesNum;
   uint8_t Type;
   uint8_t Flag;
@@ -455,10 +454,10 @@ struct GP_SERV_COMMAND_CHANNEL_STATE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t ZoneNo; // lookup="zones"
   uint32_t IP;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t Port;
   uint8_t ChannelIndex;
   uint8_t HP;
@@ -469,10 +468,10 @@ struct GP_SERV_COMMAND_BATTLE_MESSAGE2 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNoCas;
-  uint32_t UniqueNoTar;
-  uint16_t ActIndexCas;
-  uint16_t ActIndexTar;
+  uint32_t UniqueNoCas;   // lookup="@UniqueNo"
+  uint32_t UniqueNoTar;   // lookup="@UniqueNo"
+  uint16_t ActIndexCas;   // lookup="@ActIndex"
+  uint16_t ActIndexTar;   // lookup="@ActIndex"
   uint32_t Data;
   uint32_t Data2;
   uint16_t MessageNum;
@@ -492,8 +491,8 @@ struct GP_SERV_COMMAND_DIG {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t TarUniqueNo;
-  uint16_t TarActIndex;
+  uint32_t TarUniqueNo;   // lookup="@UniqueNo"
+  uint16_t TarActIndex;   // lookup="@ActIndex"
   uint8_t Flags;
   uint8_t padding00;
 };
@@ -503,8 +502,8 @@ struct GP_SERV_COMMAND_EFFECT {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   int16_t EffectNum;
   int8_t Type;
   int8_t Status;
@@ -530,8 +529,8 @@ struct GP_SERV_COMMAND_EVENT {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t EventNum;
   uint16_t EventPara;
   uint16_t Mode;
@@ -544,8 +543,8 @@ struct GP_SERV_COMMAND_EVENTSTR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t EventNum;
   uint16_t EventPara;
   uint16_t Mode;
@@ -561,9 +560,9 @@ struct GP_SERV_COMMAND_EVENTNUM {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   int32_t num[8];
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t EventNum;
   uint16_t EventPara;
   uint16_t Mode;
@@ -576,8 +575,8 @@ struct GP_SERV_COMMAND_TALKNUM {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t MesNum;
   uint8_t Type;
   uint8_t padding00;
@@ -590,7 +589,7 @@ struct GP_SERV_COMMAND_SERVERSTATUS {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t BufStatus[32];
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   flags0_t Flags0;
   flags1_t Flags1;
   uint8_t server_status;
@@ -622,11 +621,11 @@ struct GP_SERV_COMMAND_SCHEDULOR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNoCas;
-  uint32_t UniqueNoTar;
+  uint32_t UniqueNoCas;   // lookup="@UniqueNo"
+  uint32_t UniqueNoTar;   // lookup="@UniqueNo"
   uint32_t ident;
-  uint16_t ActIndexCast;
-  uint16_t ActIndexTar;
+  uint16_t ActIndexCast;  // lookup="@ActIndex"
+  uint16_t ActIndexTar;   // lookup="@ActIndex"
 };
 
 /// 0x0039
@@ -634,11 +633,11 @@ struct GP_SERV_COMMAND_MAPSCHEDULOR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNoCas;
-  uint32_t UniqueNoTar;
+  uint32_t UniqueNoCas;   // lookup="@UniqueNo"
+  uint32_t UniqueNoTar;   // lookup="@UniqueNo"
   uint32_t id_scheduler;
-  uint16_t ActIndexCast;
-  uint16_t ActIndexTar;
+  uint16_t ActIndexCast;  // lookup="@ActIndex"
+  uint16_t ActIndexTar;   // lookup="@ActIndex"
 };
 
 /// 0x003A
@@ -646,10 +645,10 @@ struct GP_SERV_COMMAND_MAGICSCHEDULOR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNoCas;
-  uint32_t UniqueNoTar;
-  uint16_t ActIndexCast;
-  uint16_t ActIndexTar;
+  uint32_t UniqueNoCas;   // lookup="@UniqueNo"
+  uint32_t UniqueNoTar;   // lookup="@UniqueNo"
+  uint16_t ActIndexCast;  // lookup="@ActIndex"
+  uint16_t ActIndexTar;   // lookup="@ActIndex"
   uint16_t fileNum;
   uint8_t type;
   uint8_t padding00;
@@ -660,8 +659,8 @@ struct GP_SERV_COMMAND_EVENTMES {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t Number;
 };
 
@@ -741,8 +740,8 @@ struct GP_SERV_COMMAND_TALKNUMNAME {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t MesNum;
   uint8_t Type;
   uint8_t padding00;
@@ -937,9 +936,9 @@ struct GP_SERV_COMMAND_ASSIST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t AssistNo;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t padding00;
 };
 
@@ -962,17 +961,17 @@ struct GP_SERV_COMMAND_MOTIONMES {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t CasUniqueNo;
-  uint32_t TarUniqueNo;
-  uint16_t CasActIndex;
-  uint16_t TarActIndex;
+  uint32_t CasUniqueNo;   // lookup="@UniqueNo"
+  uint32_t TarUniqueNo;   // lookup="@UniqueNo"
+  uint16_t CasActIndex;   // lookup="@ActIndex"
+  uint16_t TarActIndex;   // lookup="@ActIndex"
   uint16_t MesNum;
   uint16_t Param;
   uint16_t unknown14;
   uint8_t Mode;
   uint8_t padding00;
-  uint32_t FaithUniqueNo[5];
-  uint16_t FaithActIndex[5];
+  uint32_t FaithUniqueNo[5]; // lookup="@UniqueNo"
+  uint16_t FaithActIndex[5]; // lookup="@ActIndex"
   uint16_t padding01;
 };
 
@@ -984,8 +983,8 @@ struct GP_SERV_COMMAND_WPOS {
   float x;
   float y;
   float z;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t Mode;
   char dir;
   uint32_t padding00;
@@ -1082,8 +1081,8 @@ struct GP_SERV_COMMAND_WPOS2 {
   float x;
   float y;
   float z;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t Mode;
   char dir;
   uint32_t padding00;
@@ -1131,8 +1130,8 @@ struct GP_SERV_COMMAND_COMBINE_ANS {
   uint8_t padding00;
   uint16_t ItemNo;
   uint16_t BreakNo[8];
-  uint16_t UniqueNo;
-  uint16_t ActIndex;
+  uint16_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t name[16];
   uint8_t padding01[2];
 };
@@ -1148,8 +1147,8 @@ struct GP_SERV_COMMAND_COMBINE_INF {
   uint8_t padding00;
   uint16_t ItemNo;
   uint16_t BreakNo[8];
-  uint16_t UniqueNo;
-  uint16_t ActIndex;
+  uint16_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t name[16];
   uint8_t padding01[2];
 };
@@ -1212,9 +1211,9 @@ struct GP_SERV_COMMAND_SWITCH_START {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t AllNum;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   char sName[15];
   uint8_t Kind;
   char Str[128];
@@ -1517,8 +1516,8 @@ struct GP_SERV_COMMAND_EQUIP_INSPECT {
   uint16_t size : 7;
   uint16_t sync;
   // BEGIN eqHdr
-  uint32_t UniqNo;
-  uint16_t ActIndex;
+  uint32_t UniqNo;        // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t OptionFlag;
   // END eqHdr
 
@@ -1549,11 +1548,11 @@ struct GP_SERV_COMMAND_TROPHY_LIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t TrophyItemNum;
-  uint32_t TargetUniqueNo;
+  uint32_t TargetUniqueNo;   // lookup="@UniqueNo"
   uint16_t Gold;
   uint16_t padding00;
   uint16_t TrophyItemNo;
-  uint16_t TargetActIndex;
+  uint16_t TargetActIndex;   // lookup="@ActIndex"
   uint8_t TrophyItemIndex;
   uint8_t Entry;
   uint8_t IsContainer;
@@ -1561,8 +1560,8 @@ struct GP_SERV_COMMAND_TROPHY_LIST {
   uint32_t StartTime;
   uint16_t IsLocallyLotted;
   uint16_t Point;
-  uint32_t LootUniqueNo;
-  uint16_t LootActIndex;
+  uint32_t LootUniqueNo;     // lookup="@UniqueNo"
+  uint16_t LootActIndex;     // lookup="@ActIndex"
   uint16_t LootPoint;
   uint8_t LootActName[16];
   uint8_t NamedFlag : 1;
@@ -1580,12 +1579,12 @@ struct GP_SERV_COMMAND_GROUP_LIST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t Hp;
   uint32_t Mp;
   uint32_t Tp;
   GP_GROUP_ATTR GAttr;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t MemberNumber;
   uint8_t MoghouseFlg;
   uint8_t Kind;
@@ -1616,11 +1615,11 @@ struct GP_SERV_COMMAND_GROUP_ATTR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t Hp;
   uint32_t Mp;
   uint32_t Tp;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t Hpp;
   uint8_t Mpp;
   uint8_t Kind;
@@ -1660,12 +1659,12 @@ struct GP_SERV_COMMAND_GROUP_LIST2 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   uint32_t Hp;
   uint32_t Mp;
   uint32_t Tp;
   GP_GROUP_ATTR GAttr;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t MemberNumber;
   uint8_t MoghouseFlg;
   uint8_t Kind;
@@ -1710,7 +1709,7 @@ struct GP_SERV_COMMAND_TRACKING_POS {
   float z;
   uint8_t Level;
   uint8_t unused;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   GP_TRACKING_POS_STATE State;
 };
 
@@ -1727,8 +1726,8 @@ struct GP_SERV_COMMAND_RES {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint16_t type;
 };
 
@@ -1782,11 +1781,11 @@ struct GP_SERV_COMMAND_BAZAAR_SHOPPING {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
   GP_BAZAAR_SHOPPING_STATE State;
   uint8_t HideLevel;
   uint8_t padding00;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   char sName[16];
 };
 
@@ -1795,10 +1794,9 @@ struct GP_SERV_COMMAND_BAZAAR_SELL {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint32_t ItemNum;
-  uint16_t ActIndex;
-  uint16_t BazaarActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
+  uint16_t BazaarActIndex; // lookup="@ActIndex"
   char sName[16];
   uint8_t ItemIndex;
   uint8_t padding00[3];
@@ -2156,8 +2154,8 @@ struct GP_SERV_COMMAND_PARTY_REQUEST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo;      // lookup="@UniqueNo"
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t Flags;
   uint8_t Status;
   char sName[16];
@@ -2170,7 +2168,7 @@ struct GP_SERV_COMMAND_JUMP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ActIndex;
+  uint16_t ActIndex;      // lookup="@ActIndex"
   uint8_t padding00[2];
 };
 
