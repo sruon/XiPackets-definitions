@@ -237,7 +237,7 @@ struct GP_CLI_COMMAND_ITEM_TRADE_LIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ItemIndex;
   uint8_t TradeIndex;
 };
@@ -284,7 +284,7 @@ struct GP_CLI_COMMAND_ITEM_MAKE {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t padding00;
 };
 
@@ -712,7 +712,7 @@ struct GP_CLI_COMMAND_SHOP_SELL_REQ {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ItemIndex;
   uint8_t padding00;
 };
@@ -754,7 +754,7 @@ struct GP_CLI_COMMAND_COMBINE_ASK {
   uint16_t Crystal;
   uint8_t CrystalIdx;
   uint8_t Items;
-  uint16_t ItemNo[8];
+  uint16_t ItemNo[8]; // lookup="items"
   uint8_t TableNo[8];
 };
 
@@ -798,7 +798,7 @@ struct GP_CLI_COMMAND_GUILD_BUY {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t PropertyItemIndex;
   uint8_t ItemNum;
 };
@@ -815,7 +815,7 @@ struct GP_CLI_COMMAND_GUILD_SELL {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t PropertyItemIndex;
   uint8_t ItemNum;
 };
@@ -985,7 +985,7 @@ struct GP_CLI_COMMAND_MYROOM_PLACE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   int8_t X;
   int8_t Y;
   int8_t Z;
@@ -1322,8 +1322,8 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_ADD {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomPlantItemNo;
-  uint16_t MyroomAddItemNo;
+  uint16_t MyroomPlantItemNo; // lookup="items"
+  uint16_t MyroomAddItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
   uint8_t MyroomAddItemIndex;
   uint8_t MyroomPlantCategory;
@@ -1335,7 +1335,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_CHECK {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomPlantItemNo;
+  uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
   uint8_t MyroomPlantCategory;
 };
@@ -1345,7 +1345,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_CROP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomPlantItemNo;
+  uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
   uint8_t MyroomPlantCategory;
   uint8_t CancellFlg;
@@ -1357,7 +1357,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_STOP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomPlantItemNo;
+  uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
   uint8_t MyroomPlantCategory;
 };

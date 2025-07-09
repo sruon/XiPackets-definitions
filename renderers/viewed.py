@@ -51,6 +51,10 @@ class ProcessedField:
     def _determine_type(
         self, field: Union[StructField, BitField, PositionField]
     ) -> str:
+        # First check for explicit type hint
+        if isinstance(field, StructField) and field.hints and 'type' in field.hints:
+            return field.hints['type']
+
         type_map = {
             "uint8_t": "byte",
             "uint16_t": "uint16",
@@ -122,6 +126,11 @@ class ProcessedField:
     def _determine_arg(
         self, field: Union[StructField, BitField, PositionField]
     ) -> Optional[str]:
+        # First check for explicit bits hint
+        if isinstance(field, StructField) and field.hints and 'bits' in field.hints:
+            return field.hints['bits']
+
+        # Then handle array size
         if (
             isinstance(field, StructField)
             and hasattr(field, "array_size")

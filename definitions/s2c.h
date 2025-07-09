@@ -313,7 +313,7 @@ struct GP_SERV_COMMAND_ITEM_LIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t Category;
   uint8_t ItemIndex;
   uint8_t LockFlg;
@@ -326,7 +326,7 @@ struct GP_SERV_COMMAND_ITEM_ATTR {
   uint16_t sync;
   uint32_t ItemNum;
   uint32_t Price;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t Category;
   uint8_t ItemIndex;
   uint8_t LockFlg;
@@ -362,7 +362,7 @@ struct GP_SERV_COMMAND_ITEM_TRADE_LIST {
   uint16_t sync;
   uint32_t ItemNum;
   uint16_t TradeCounter;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ItemFreeSpaceNum;
   uint8_t TradeIndex;
   uint8_t Attr[24];
@@ -374,7 +374,7 @@ struct GP_SERV_COMMAND_ITEM_TRADE_MYLIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t TradeIndex;
   uint8_t ItemIndex;
 };
@@ -1738,7 +1738,7 @@ struct GP_SERV_COMMAND_MYROOM_OPERATION {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomItemNo;
+  uint16_t MyroomItemNo; // lookup="items"
   GP_MYROOM_RESULT Result;
   uint16_t unknown00;
   uint8_t MyroomItemIndex;
@@ -1754,7 +1754,7 @@ struct GP_SERV_COMMAND_BAZAAR_LIST {
   uint32_t Price;
   uint32_t ItemNum;
   uint16_t TaxRate;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t ItemIndex;
   uint8_t Attr[24];
   uint8_t padding00[3];
@@ -1811,7 +1811,7 @@ struct GP_SERV_COMMAND_BAZAAR_SALE {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   char sName[16];
   uint8_t padding00[2];
 };
@@ -2149,7 +2149,7 @@ struct GP_SERV_COMMAND_LOCKSTYLE_VALIDATION {
   uint16_t sync;
   uint8_t Count;
   uint8_t padding00[3];
-  uint16_t ItemNo[16];
+  uint16_t ItemNo[16]; // lookup="items"
 };
 
 /// 0x011D
