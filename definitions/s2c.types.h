@@ -640,29 +640,29 @@ typedef struct {
 } _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4;
 
 typedef struct {
-  uint16_t need_skill_1;  // PS2: need_skill_1
-  uint16_t need_skill_2;  // PS2: need_skill_2
-  uint16_t need_skill_3;  // PS2: need_skill_3
-  uint16_t need_item;     // PS2: need_item
-  uint16_t need_key_item; // PS2: (New; did not exist.)
-  uint16_t itemnum[8];    // PS2: itemnum
-  uint16_t itemcount[8];  // PS2: itemcount
+  uint16_t need_skill_1;
+  uint16_t need_skill_2;
+  uint16_t need_skill_3;
+  uint16_t need_item;
+  uint16_t need_key_item;
+  uint16_t itemnum[8];
+  uint16_t itemcount[8];
 } _GP_SERV_COMMAND_RECIPE_Type_1;
 
 typedef struct {
-  uint16_t junk00[6];   // PS2: (New; did not exist.)
-  uint16_t itemnum[16]; // PS2: (New; did not exist.)
+  uint16_t junk00[6];
+  uint16_t itemnum[16];
 } _GP_SERV_COMMAND_RECIPE_Type_2;
 
 typedef struct {
-  uint16_t productitem;   // PS2: productitem
-  uint16_t need_skill_1;  // PS2: need_skill_1
-  uint16_t need_skill_2;  // PS2: need_skill_2
-  uint16_t need_skill_3;  // PS2: need_skill_3
-  uint16_t need_item;     // PS2: need_item
-  uint16_t need_key_item; // PS2: (New; did not exist.)
-  uint16_t itemnum[8];    // PS2: itemnum
-  uint16_t itemcount[8];  // PS2: itemcount
+  uint16_t productitem;
+  uint16_t need_skill_1;
+  uint16_t need_skill_2;
+  uint16_t need_skill_3;
+  uint16_t need_item;
+  uint16_t need_key_item;
+  uint16_t itemnum[8];
+  uint16_t itemcount[8];
 } _GP_SERV_COMMAND_RECIPE_Type_3;
 
 struct _GP_SERV_COMMAND_ITEM_SUBCONTAINER_Data {
@@ -683,34 +683,34 @@ struct _GP_SERV_COMMAND_ITEM_SUBCONTAINER_Data {
 };
 
 typedef struct {
-  uint8_t padding00;         // PS2: (Unknown)
-  uint16_t ItemNo;           // PS2: (Unknown)
-  SAVE_EQUIP_KIND EquipKind; // PS2: (Unknown)
+  uint8_t padding00;
+  uint16_t ItemNo; // lookup="items"
+  SAVE_EQUIP_KIND EquipKind;
 } _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_0;
 
 typedef struct {
-  uint8_t padding00[3];          // PS2: (New; did not exist.))
-  uint16_t ItemNo;               // PS2: ItemNo
-  char sComLinkName[16];         // PS2: sComLinkName
-  uint8_t sComColor[2];          // PS2: (Unnamed struct of bits.)
-  uint8_t job[2];                // PS2: job
-  uint8_t lvl[2];                // PS2: lvl
-  uint8_t mjob;                  // PS2: mjob
-  uint8_t mlvl;                  // PS2: (New; did not exist.)
-  uint8_t mflags;                // PS2: (New; did not exist.)
-  uint8_t padding01[3];          // PS2: (New; did not exist.)
-  uint32_t BallistaChevronCount; // PS2: (New; did not exist.)
-  uint8_t BallistaChevronFlags;  // PS2: (New; did not exist.)
-  uint8_t padding02;             // PS2: (New; did not exist.)
-  uint16_t BallistaFlags;        // PS2: (New; did not exist.)
-  uint32_t MesNo;                // PS2: (New; did not exist.)
-  int32_t Params[5];             // PS2: (New; did not exist.)
-  uint8_t padding03[8];          // PS2: (New; did not exist.)
+  uint8_t padding00[3];
+  uint16_t ItemNo; // lookup="items"
+  char sComLinkName[16];
+  uint8_t sComColor[2];
+  uint8_t job[2];
+  uint8_t lvl[2];
+  uint8_t mjob;
+  uint8_t mlvl;
+  uint8_t mflags;
+  uint8_t padding01[3];
+  uint32_t BallistaChevronCount;
+  uint8_t BallistaChevronFlags;
+  uint8_t padding02;
+  uint16_t BallistaFlags;
+  uint32_t MesNo;
+  int32_t Params[5];
+  uint8_t padding03[8];
 } _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_1;
 
 typedef struct {
-  uint16_t ItemNo[8];   // PS2: ItemNo
-  uint8_t EquipKind[8]; // PS2: EquipKind
+  uint16_t ItemNo[8]; // lookup="items"
+  uint8_t EquipKind[8];
 } _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_2;
 
 typedef struct {

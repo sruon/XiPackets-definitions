@@ -42,7 +42,7 @@ struct GP_SERV_COMMAND_LOGIN {
   uint16_t size : 7;
   uint16_t sync;
   _GP_SERV_POS_HEAD PosHead;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
   uint32_t ntTime;
   uint32_t ntTimeSec;
   uint32_t GameTime;
@@ -313,7 +313,7 @@ struct GP_SERV_COMMAND_ITEM_LIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint16_t ItemNo; // lookup="items"
+  uint16_t ItemNo;  // lookup="items"
   uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t LockFlg;
@@ -326,7 +326,7 @@ struct GP_SERV_COMMAND_ITEM_ATTR {
   uint16_t sync;
   uint32_t ItemNum;
   uint32_t Price;
-  uint16_t ItemNo; // lookup="items"
+  uint16_t ItemNo;  // lookup="items"
   uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t LockFlg;
@@ -456,7 +456,7 @@ struct GP_SERV_COMMAND_CHANNEL_STATE {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueNo;
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
   uint32_t IP;
   uint16_t ActIndex;
   uint16_t Port;
@@ -1142,16 +1142,16 @@ struct GP_SERV_COMMAND_COMBINE_INF {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t Result;       // PS2: Result
-  int8_t Grade;         // PS2: Grade
-  uint8_t Count;        // PS2: Count
-  uint8_t padding00;    // PS2: (New; did not exist.)
-  uint16_t ItemNo;      // PS2: ItemNo
-  uint16_t BreakNo[8];  // PS2: BreakNo
-  uint16_t UniqueNo;    // PS2: UniqueNo
-  uint16_t ActIndex;    // PS2: ActIndex
-  uint8_t name[16];     // PS2: Name
-  uint8_t padding01[2]; // PS2: (New; did not exist.)
+  uint8_t Result;
+  int8_t Grade;
+  uint8_t Count;
+  uint8_t padding00;
+  uint16_t ItemNo;
+  uint16_t BreakNo[8];
+  uint16_t UniqueNo;
+  uint16_t ActIndex;
+  uint8_t name[16];
+  uint8_t padding01[2];
 };
 
 /// 0x0071
@@ -1395,7 +1395,7 @@ struct GP_SERV_COMMAND_MAP_GROUP {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueID;
-  int16_t zone;
+  int16_t zone; // lookup="zones"
   uint16_t padding00;
   float x;
   float y;
@@ -1517,9 +1517,9 @@ struct GP_SERV_COMMAND_EQUIP_INSPECT {
   uint16_t size : 7;
   uint16_t sync;
   // BEGIN eqHdr
-  uint32_t UniqNo;    // PS2: UniqNo
-  uint16_t ActIndex;  // PS2: ActIndex
-  uint8_t OptionFlag; // PS2: OptionFlag
+  uint32_t UniqNo;
+  uint16_t ActIndex;
+  uint8_t OptionFlag;
   // END eqHdr
 
   union Data {
@@ -1544,36 +1544,35 @@ struct GP_SERV_COMMAND_INSPECT_MESSAGE {
 };
 
 /// 0x00D2
-struct GP_SERV_COMMAND_TROPHY_LIST
-{
-    uint16_t    id: 9;
-    uint16_t    size: 7;
-    uint16_t    sync;
-    uint32_t    TrophyItemNum;      // PS2: TrophyItemNum
-    uint32_t    TargetUniqueNo;     // PS2: TargetUniqueNo
-    uint16_t    Gold;               // PS2: Gold
-    uint16_t    padding00;          // PS2: (New; was Exp originally.)
-    uint16_t    TrophyItemNo;       // PS2: TrophyItemNo
-    uint16_t    TargetActIndex;     // PS2: TargetActIndex
-    uint8_t     TrophyItemIndex;    // PS2: TrophyItemIndex
-    uint8_t     Entry;              // PS2: Entry
-    uint8_t     IsContainer;        // PS2: (New; did not exist.)
-    uint8_t     padding01;          // PS2: (New; did not exist.)
-    uint32_t    StartTime;          // PS2: StartTime
-    uint16_t    IsLocallyLotted;    // PS2: (New; did not exist.)
-    uint16_t    Point;              // PS2: (New; did not exist.)
-    uint32_t    LootUniqueNo;       // PS2: (New; did not exist.)
-    uint16_t    LootActIndex;       // PS2: (New; did not exist.)
-    uint16_t    LootPoint;          // PS2: (New; did not exist.)
-    uint8_t     LootActName[16];    // PS2: (New; did not exist.)
-    uint8_t     NamedFlag   : 1;    // PS2: (New; did not exist.)
-    uint8_t     SingleFlag  : 1;    // PS2: (New; did not exist.)
-    uint8_t     Flags_2     : 2;    // PS2: (New; did not exist.)
-    uint8_t     Flags_4     : 1;    // PS2: (New; did not exist.)
-    uint8_t     Flags_5     : 1;    // PS2: (New; did not exist.)
-    uint8_t     Flags_6     : 1;    // PS2: (New; did not exist.)
-    uint8_t     Flags_7     : 1;    // PS2: (New; did not exist.)
-    uint8_t     padding02[3];       // PS2: (New; did not exist.)
+struct GP_SERV_COMMAND_TROPHY_LIST {
+  uint16_t id : 9;
+  uint16_t size : 7;
+  uint16_t sync;
+  uint32_t TrophyItemNum;
+  uint32_t TargetUniqueNo;
+  uint16_t Gold;
+  uint16_t padding00;
+  uint16_t TrophyItemNo;
+  uint16_t TargetActIndex;
+  uint8_t TrophyItemIndex;
+  uint8_t Entry;
+  uint8_t IsContainer;
+  uint8_t padding01;
+  uint32_t StartTime;
+  uint16_t IsLocallyLotted;
+  uint16_t Point;
+  uint32_t LootUniqueNo;
+  uint16_t LootActIndex;
+  uint16_t LootPoint;
+  uint8_t LootActName[16];
+  uint8_t NamedFlag : 1;
+  uint8_t SingleFlag : 1;
+  uint8_t Flags_2 : 2;
+  uint8_t Flags_4 : 1;
+  uint8_t Flags_5 : 1;
+  uint8_t Flags_6 : 1;
+  uint8_t Flags_7 : 1;
+  uint8_t padding02[3];
 };
 
 /// 0x00DD
@@ -1593,7 +1592,7 @@ struct GP_SERV_COMMAND_GROUP_LIST {
   uint8_t Hpp;
   uint8_t Mpp;
   uint8_t padding00;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint8_t mjob_no;
   uint8_t mjob_lv;
   uint8_t sjob_no;
@@ -1626,7 +1625,7 @@ struct GP_SERV_COMMAND_GROUP_ATTR {
   uint8_t Mpp;
   uint8_t Kind;
   uint8_t MoghouseFlg;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint16_t MonstrosityFlag;
   uint16_t MonstrosityNameId;
   uint8_t mjob_no;
@@ -1673,7 +1672,7 @@ struct GP_SERV_COMMAND_GROUP_LIST2 {
   uint8_t Hpp;
   uint8_t Mpp;
   uint8_t padding00;
-  uint16_t ZoneNo;
+  uint16_t ZoneNo; // lookup="zones"
   uint8_t mjob_no;
   uint8_t mjob_lv;
   uint8_t sjob_no;

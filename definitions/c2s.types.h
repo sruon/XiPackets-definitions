@@ -36,7 +36,7 @@ struct _GP_MYROOM_DIARY_REQ {
 };
 
 struct _GP_MYROOM_PLACE_REQ {
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   int8_t X;
   int8_t Y;
   int8_t Z;
@@ -46,7 +46,7 @@ struct _GP_MYROOM_PLACE_REQ {
 };
 
 struct _GP_MAP_GROUP_REQ {
-  uint32_t ZoneNo;
+  uint32_t ZoneNo; // lookup="zones"
 };
 
 struct FFGpGMReportBlockHdr {
@@ -102,23 +102,23 @@ struct expansions_t {
 struct lockstyleitem_t {
   uint8_t ItemIndex;
   uint8_t EquipKind;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t padding00;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t padding01;
 };
 
 struct equipsetrequestitem_t {
   uint8_t HasItemFlg : 1;
   uint8_t RemoveItemFlg : 1;
-  uint8_t Category : 6;
+  uint8_t Category : 6; // lookup="containers"
   uint8_t ItemIndex;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
 };
 
 struct equipsetitem_t {
   uint8_t ItemIndex;
   uint8_t EquipKind;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t padding00;
 };
