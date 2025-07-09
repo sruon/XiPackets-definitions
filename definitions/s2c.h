@@ -314,7 +314,7 @@ struct GP_SERV_COMMAND_ITEM_LIST {
   uint16_t sync;
   uint32_t ItemNum;
   uint16_t ItemNo; // lookup="items"
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t LockFlg;
 };
@@ -327,7 +327,7 @@ struct GP_SERV_COMMAND_ITEM_ATTR {
   uint32_t ItemNum;
   uint32_t Price;
   uint16_t ItemNo; // lookup="items"
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t LockFlg;
   uint8_t Attr[24];
@@ -1742,7 +1742,7 @@ struct GP_SERV_COMMAND_MYROOM_OPERATION {
   GP_MYROOM_RESULT Result;
   uint16_t unknown00;
   uint8_t MyroomItemIndex;
-  uint8_t MyroomCategory;
+  uint8_t MyroomCategory; // lookup="containers"
   uint16_t unknown01;
 };
 

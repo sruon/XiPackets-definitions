@@ -275,7 +275,7 @@ struct GP_CLI_COMMAND_ITEM_USE {
   uint16_t ActIndex;
   uint8_t PropertyItemIndex;
   uint8_t padding00;
-  uint32_t Category;
+  uint32_t Category; // lookup="containers"
 };
 
 /// 0x0038
@@ -300,7 +300,7 @@ struct GP_CLI_COMMAND_ITEM_STACK {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t Category;
+  uint32_t Category; // lookup="containers"
 };
 
 /// 0x003B
@@ -905,7 +905,7 @@ struct GP_CLI_COMMAND_GROUP_COMLINK_ACTIVE {
   uint16_t b : 4;
   uint16_t a : 4;
   uint8_t ItemIndex;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ActiveFlg;
   uint8_t padding00[3];
   uint8_t sComLinkName[15];
@@ -1326,8 +1326,8 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_ADD {
   uint16_t MyroomAddItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
   uint8_t MyroomAddItemIndex;
-  uint8_t MyroomPlantCategory;
-  uint8_t MyroomAddCategory;
+  uint8_t MyroomPlantCategory; // lookup="containers"
+  uint8_t MyroomAddCategory; // lookup="containers"
 };
 
 /// 0x00FD
@@ -1337,7 +1337,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_CHECK {
   uint16_t sync;
   uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
-  uint8_t MyroomPlantCategory;
+  uint8_t MyroomPlantCategory; // lookup="containers"
 };
 
 /// 0x00FE
@@ -1347,7 +1347,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_CROP {
   uint16_t sync;
   uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
-  uint8_t MyroomPlantCategory;
+  uint8_t MyroomPlantCategory; // lookup="containers"
   uint8_t CancellFlg;
   uint8_t padding00[3];
 };
@@ -1359,7 +1359,7 @@ struct GP_CLI_COMMAND_MYROOM_PLANT_STOP {
   uint16_t sync;
   uint16_t MyroomPlantItemNo; // lookup="items"
   uint8_t MyroomPlantItemIndex;
-  uint8_t MyroomPlantCategory;
+  uint8_t MyroomPlantCategory; // lookup="containers"
 };
 
 /// 0x0100
