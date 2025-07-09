@@ -331,6 +331,7 @@ struct GP_SERV_COMMAND_ITEM_ATTR {
   uint8_t ItemIndex;
   uint8_t LockFlg;
   uint8_t Attr[24];
+  uint8_t padding00[3];
 };
 
 /// 0x0021
