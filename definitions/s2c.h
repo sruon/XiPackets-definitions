@@ -293,7 +293,7 @@ struct GP_SERV_COMMAND_ITEM_SAME {
   uint16_t sync;
   uint8_t State;
   uint8_t padding00[3];
-  uint32_t Flags;
+  uint32_t Flags; // type="bits" bits="32"
 };
 
 /// 0x001E
@@ -1198,10 +1198,13 @@ struct GP_SERV_COMMAND_UNKNOWN_0076 {
 };
 
 /// 0x0077
-struct GP_SERV_COMMAND_UNKNOWN_0077 {
+struct GP_SERV_COMMAND_ENTITY_VISIBILITY {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
+  uint8_t Flags;
+  uint8_t padding00[3];
+  uint32_t Data[32];
 };
 
 /// 0x0078
