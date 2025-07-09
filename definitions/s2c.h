@@ -1543,6 +1543,39 @@ struct GP_SERV_COMMAND_INSPECT_MESSAGE {
   uint32_t DesignationNo;
 };
 
+/// 0x00D2
+struct GP_SERV_COMMAND_TROPHY_LIST
+{
+    uint16_t    id: 9;
+    uint16_t    size: 7;
+    uint16_t    sync;
+    uint32_t    TrophyItemNum;      // PS2: TrophyItemNum
+    uint32_t    TargetUniqueNo;     // PS2: TargetUniqueNo
+    uint16_t    Gold;               // PS2: Gold
+    uint16_t    padding00;          // PS2: (New; was Exp originally.)
+    uint16_t    TrophyItemNo;       // PS2: TrophyItemNo
+    uint16_t    TargetActIndex;     // PS2: TargetActIndex
+    uint8_t     TrophyItemIndex;    // PS2: TrophyItemIndex
+    uint8_t     Entry;              // PS2: Entry
+    uint8_t     IsContainer;        // PS2: (New; did not exist.)
+    uint8_t     padding01;          // PS2: (New; did not exist.)
+    uint32_t    StartTime;          // PS2: StartTime
+    uint16_t    IsLocallyLotted;    // PS2: (New; did not exist.)
+    uint16_t    Point;              // PS2: (New; did not exist.)
+    uint32_t    LootUniqueNo;       // PS2: (New; did not exist.)
+    uint16_t    LootActIndex;       // PS2: (New; did not exist.)
+    uint16_t    LootPoint;          // PS2: (New; did not exist.)
+    uint8_t     LootActName[16];    // PS2: (New; did not exist.)
+    uint8_t     NamedFlag   : 1;    // PS2: (New; did not exist.)
+    uint8_t     SingleFlag  : 1;    // PS2: (New; did not exist.)
+    uint8_t     Flags_2     : 2;    // PS2: (New; did not exist.)
+    uint8_t     Flags_4     : 1;    // PS2: (New; did not exist.)
+    uint8_t     Flags_5     : 1;    // PS2: (New; did not exist.)
+    uint8_t     Flags_6     : 1;    // PS2: (New; did not exist.)
+    uint8_t     Flags_7     : 1;    // PS2: (New; did not exist.)
+    uint8_t     padding02[3];       // PS2: (New; did not exist.)
+};
+
 /// 0x00DD
 struct GP_SERV_COMMAND_GROUP_LIST {
   uint16_t id : 9;
