@@ -52,6 +52,7 @@ struct GP_CLI_COMMAND_NETEND {
   uint16_t sync;
   uint16_t State;
   uint16_t padding00;
+  uint16_t undocumented00;
 };
 
 /// 0x000F
@@ -96,7 +97,7 @@ struct GP_CLI_COMMAND_CHARREQ {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ActIndex;
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
 };
 
@@ -105,7 +106,7 @@ struct GP_CLI_COMMAND_CHARREQ2 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ActIndex;
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
   uint32_t UniqueNo2; // lookup="@uniqueno"
   uint32_t UniqueNo3; // lookup="@uniqueno"
@@ -157,7 +158,7 @@ struct GP_CLI_COMMAND_GMCOMMAND {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t GMUniqueNo; // lookup="@uniqueno"
-  uint8_t Command[128];
+  char Command[128];
 };
 
 /// 0x0028
@@ -166,7 +167,7 @@ struct GP_CLI_COMMAND_ITEM_DUMP {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
 };
 
@@ -176,8 +177,8 @@ struct GP_CLI_COMMAND_ITEM_MOVE {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint8_t Category1;
-  uint8_t Category2;
+  uint8_t Category1; // lookup="containers"
+  uint8_t Category2; // lookup="containers"
   uint8_t ItemIndex1;
   uint8_t ItemIndex2;
 };
@@ -187,7 +188,7 @@ struct GP_CLI_COMMAND_ITEM_ATTR {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
 };
 
@@ -199,7 +200,7 @@ struct GP_CLI_COMMAND_TRANSLATE {
   uint8_t FromIndex;
   uint8_t ToIndex;
   uint16_t padding00;
-  uint8_t Name[64];
+  char Name[64];
 };
 
 /// 0x002C
@@ -209,7 +210,7 @@ struct GP_CLI_COMMAND_ITEMSEARCH {
   uint16_t sync;
   uint8_t Language;
   uint8_t padding00[3];
-  uint8_t Name[64];
+  char Name[64];
 };
 
 /// 0x0032
@@ -309,11 +310,11 @@ struct GP_CLI_COMMAND_MANNEQUIN_SET {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t Kind;
-  uint32_t Category1;
+  uint32_t Category1; // lookup="containers"
   uint8_t ItemIndex1;
   uint8_t ContainerIndex;
   uint16_t padding00;
-  uint32_t Category2;
+  uint32_t Category2; // lookup="containers"
   uint8_t ItemIndex2;
   uint8_t padding01[3];
   uint32_t unknown00;
@@ -393,7 +394,7 @@ struct GP_CLI_COMMAND_PBX {
   int8_t ResParam1;
   int8_t ResParam2;
   int8_t ResParam3;
-  uint8_t TargetName[16];
+  char TargetName[16];
 };
 
 /// 0x004E
@@ -410,7 +411,7 @@ struct GP_CLI_COMMAND_EQUIP_SET {
   uint16_t sync;
   uint8_t PropertyItemIndex;
   uint8_t EquipKind;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
 };
 
 /// 0x0051
@@ -529,7 +530,7 @@ struct GP_CLI_COMMAND_MAPRECT {
   float x;
   float y;
   float z;
-  uint16_t ActIndex;
+  uint16_t ActIndex; // lookup="@actindex"
   uint8_t MyRoomExitBit;
   uint8_t MyRoomExitMode;
 };
@@ -542,7 +543,7 @@ struct GP_CLI_COMMAND_PASSWARDS {
   uint32_t UniqueNo; // lookup="@uniqueno"
   uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
-  uint8_t String[16];
+  char String[16];
 };
 
 /// 0x0061
@@ -552,6 +553,7 @@ struct GP_CLI_COMMAND_CLISTATUS {
   uint16_t sync;
   uint8_t unknown00;
   uint8_t padding00;
+  uint16_t undocumented00;
 };
 
 /// 0x0063
@@ -613,7 +615,7 @@ struct GP_CLI_COMMAND_GROUP_STRIKE {
   uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
-  uint8_t sName[15];
+  char sName[15];
 };
 
 /// 0x0072
@@ -625,7 +627,7 @@ struct GP_CLI_COMMAND_GROUP_KICK {
   uint16_t ActIndex; // lookup="@actindex"
   uint8_t Kind;
   uint8_t padding00;
-  uint8_t sName[15];
+  char sName[15];
 };
 
 /// 0x0073
@@ -656,7 +658,7 @@ struct GP_CLI_COMMAND_GROUP_TALK {
   uint16_t padding00;
   uint8_t Kind;
   uint8_t Attr;
-  uint8_t Str[128];
+  char Str[128];
 };
 
 /// 0x0076
@@ -672,7 +674,7 @@ struct GP_CLI_COMMAND_GROUP_CHANGE2 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t sName[16];
+  char sName[16];
   uint8_t Kind;
   uint8_t ChangeKind;
 };
@@ -773,7 +775,7 @@ struct GP_CLI_COMMAND_SWITCH_PROPOSAL {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t Kind;
-  uint8_t Str[128];
+  char Str[128];
 };
 
 /// 0x00A1
@@ -782,7 +784,7 @@ struct GP_CLI_COMMAND_SWITCH_VOTE {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t Index;
-  uint8_t Name[128];
+  char Name[128];
 };
 
 /// 0x00A2
@@ -834,7 +836,7 @@ struct GP_CLI_COMMAND_CHAT_STD {
   uint16_t sync;
   uint8_t Kind;
   uint8_t unknown00;
-  uint8_t Str[128];
+  char Str[128];
 };
 
 /// 0x00B6
@@ -844,8 +846,8 @@ struct GP_CLI_COMMAND_CHAT_NAME {
   uint16_t sync;
   uint8_t unknown00;
   uint8_t unknown01;
-  uint8_t sName[15];
-  uint8_t Mes[128];
+  char sName[15];
+  char Mes[128];
 };
 
 /// 0x00B7
@@ -855,8 +857,8 @@ struct GP_CLI_COMMAND_ASSIST_CHANNEL {
   uint16_t sync;
   uint8_t Kind;
   uint8_t unknown00;
-  uint8_t sName[15];
-  uint8_t Mes[128];
+  char sName[15];
+  char Mes[128];
 };
 
 /// 0x00BE
@@ -1109,7 +1111,7 @@ struct GP_CLI_COMMAND_INSPECT_MESSAGE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t sInspectMessage[123];
+  char sInspectMessage[123];
   uint8_t padding00;
 };
 
@@ -1118,7 +1120,7 @@ struct GP_CLI_COMMAND_SET_USERMSG {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t sMessage[128];
+  char sMessage[128];
   uint32_t installTime;
   uint8_t platform[4];
   uint32_t srvExCode;
@@ -1145,7 +1147,7 @@ struct GP_CLI_COMMAND_GET_LSMSG {
   uint8_t padding00[2];
   uint16_t seqId;
   uint32_t uniqNo; // lookup="@uniqueno"
-  uint8_t sMessage[128];
+  char sMessage[128];
 };
 
 /// 0x00E2
@@ -1162,12 +1164,12 @@ struct GP_CLI_COMMAND_SET_LSMSG {
   uint8_t writeLevel : 2;
   uint8_t pubEditLevel : 2;
   uint8_t LinkshellId : 2;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t padding00[2];
   uint16_t seqId;
   uint32_t uniqNo; // lookup="@uniqueno"
-  uint8_t sMessage[128];
+  char sMessage[128];
 };
 
 /// 0x00E4
@@ -1184,12 +1186,12 @@ struct GP_CLI_COMMAND_GET_LSPRIV {
   uint8_t writeLevel : 2;
   uint8_t pubEditLevel : 2;
   uint8_t LinkshellId : 2;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t padding00[2];
   uint16_t seqId;
   uint32_t uniqNo; // lookup="@uniqueno"
-  uint8_t sMessage[128];
+  char sMessage[128];
 };
 
 /// 0x00E7
@@ -1280,7 +1282,7 @@ struct GP_CLI_COMMAND_TRACKING_START {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t ActIndex;
+  uint32_t ActIndex; // lookup="@actindex"
 };
 
 /// 0x00F6
@@ -1296,9 +1298,9 @@ struct GP_CLI_COMMAND_MYROOM_LAYOUT {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomItemNo;
+  uint16_t MyroomItemNo; // lookup="items"
   uint8_t MyroomItemIndex;
-  uint8_t MyroomCategory;
+  uint8_t MyroomCategory; // lookup="containers"
   uint8_t MyroomFloorFlg;
   uint8_t x;
   uint8_t y;
@@ -1312,9 +1314,9 @@ struct GP_CLI_COMMAND_MYROOM_BANKIN {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t MyroomItemNo;
+  uint16_t MyroomItemNo; // lookup="items"
   uint8_t MyroomItemIndex;
-  uint8_t MyroomCategory;
+  uint8_t MyroomCategory; // lookup="containers"
 };
 
 /// 0x00FC
@@ -1367,8 +1369,8 @@ struct GP_CLI_COMMAND_MYROOM_JOB {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t MainJobIndex;
-  uint8_t SupportJobIndex;
+  uint8_t MainJobIndex;    // lookup="jobs"
+  uint8_t SupportJobIndex; // lookup="jobs"
 };
 
 /// 0x0101
@@ -1398,8 +1400,8 @@ struct GP_CLI_COMMAND_BAZAAR_LIST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
 };
 
@@ -1492,6 +1494,7 @@ struct GP_CLI_COMMAND_BATTLEFIELD {
   uint16_t sync;
   uint8_t Kind;
   uint8_t padding00;
+  uint16_t undocumented00;
 };
 
 /// 0x0113

@@ -55,13 +55,13 @@ def _extract_hint(field):
                 hints[key] = value
 
         # Parse key=value pairs (without quotes)
-        for match in re.finditer(r'(\w+)=(\w+)', comment):
+        for match in re.finditer(r'(\w+)=(\w+)(?!\s*")', comment):
             key, value = match.group(1), match.group(2)
             if key not in hints:  # Don't override quoted values
                 hints[key] = value
 
         # Parse standalone keywords
-        words = re.findall(r'\b\w+\b', comment)
+        words = re.findall(r'\b\w+\b(?!=)', comment)
         for word in words:
             if '=' not in word and '"' not in word:
                 if 'flags' not in hints:

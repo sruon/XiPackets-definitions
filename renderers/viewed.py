@@ -39,9 +39,9 @@ class ProcessedField:
         self.arg: Optional[str] = self._determine_arg(field)
         self.bits: Optional[int] = getattr(field, "bits", None)
         self.is_union_type: bool = (
-            isinstance(field, StructField)
-            and hasattr(field, "union_variants")
-            and field.union_variants is not None
+                isinstance(field, StructField)
+                and hasattr(field, "union_variants")
+                and field.union_variants is not None
         )
         self.union_variants: Optional[List[UnionVariant]] = (
             getattr(field, "union_variants", None)
@@ -50,7 +50,7 @@ class ProcessedField:
         )
 
     def _determine_type(
-        self, field: Union[StructField, BitField, PositionField]
+            self, field: Union[StructField, BitField, PositionField]
     ) -> str:
         # First check for explicit type hint
         if isinstance(field, StructField) and field.hints and 'type' in field.hints:
@@ -119,13 +119,13 @@ class ProcessedField:
         return mapped_type
 
     def _determine_lookup(
-        self, field: Union[StructField, BitField, PositionField]
+            self, field: Union[StructField, BitField, PositionField]
     ) -> Optional[str]:
         hints = getattr(field, "hints", {}) or {}
         return hints.get("lookup")
 
     def _determine_save(
-        self, field: Union[StructField, BitField, PositionField]
+            self, field: Union[StructField, BitField, PositionField]
     ) -> Optional[List[str]]:
         hints = getattr(field, "hints", {}) or {}
         save = hints.get("save")
@@ -134,7 +134,7 @@ class ProcessedField:
         return [save] if isinstance(save, str) else save
 
     def _determine_arg(
-        self, field: Union[StructField, BitField, PositionField]
+            self, field: Union[StructField, BitField, PositionField]
     ) -> Optional[str]:
         # First check for explicit bits hint
         if isinstance(field, StructField) and field.hints and 'bits' in field.hints:
@@ -142,9 +142,9 @@ class ProcessedField:
 
         # Then handle array size
         if (
-            isinstance(field, StructField)
-            and hasattr(field, "array_size")
-            and field.array_size
+                isinstance(field, StructField)
+                and hasattr(field, "array_size")
+                and field.array_size
         ):
             return str(field.array_size)
         return None
@@ -157,164 +157,3 @@ class ProcessedPacket:
         self.name = name
         self.id = packet_id
         self.fields = fields
-
-
-class FFXIXmlRenderer:
-    def __init__(self, filename: str) -> None:
-        self.template = jinja2.Environment(
-            loader=jinja2.FileSystemLoader("renderers/templates")
-        ).get_template("ffxi.xml.j2")
-        self.filename: str = filename
-
-    def render(self, s2c_packets: List[Packet], c2s_packets: List[Packet]) -> None:
-        processed_s2c = [self._process_packet(p) for p in s2c_packets]
-        processed_c2s = [self._process_packet(p) for p in c2s_packets]
-
-        with open(self.filename, "w") as f:
-            content = self.template.render(
-                s2c_packets=processed_s2c, c2s_packets=processed_c2s
-            )
-            f.write(content)
-        print(f"Generated {self.filename}")
-
-    def _process_packet(self, packet: Packet) -> Dict[str, Any]:
-        return {
-            "id": packet.id,
-            "name": packet.name,
-            "fields": self._preprocess_fields(packet.fields),
-        }
-
-    def _preprocess_fields(self, fields: List[StructField]) -> List[Dict[str, Any]]:
-        processed_fields: List[Dict[str, Any]] = []
-        field_idx = 0
-
-        while field_idx < len(fields):
-            field = fields[field_idx]
-
-            if field.name in ["id", "size", "sync"]:
-                field_idx += 1
-                continue
-
-            # Check for position fields (x,y,z) in any order
-            if (field_idx + 2 < len(fields) and
-                {field.name, fields[field_idx + 1].name, fields[field_idx + 2].name} == {"x", "y", "z"} and
-                all(f.type == "float" for f in [field, fields[field_idx + 1], fields[field_idx + 2]])
-            ):
-                processed_fields.append({
-                    "name": "pos",
-                    "xml_type": "pos",
-                    "bytes": 12
-                })
-                field_idx += 3
-                continue
-
-            if field.is_union_type():
-                union_data = self._process_union_field(field)
-                processed_fields.append(union_data)
-            else:
-                expanded = self._expand_array_field(field)
-                processed_fields.extend(self._convert_to_dict(f) for f in expanded)
-
-            field_idx += 1
-
-        return processed_fields
-
-    def _convert_to_dict(self, field: ProcessedField) -> Dict[str, Any]:
-        result = {
-            "name": field.name,
-            "xml_type": field.xml_type,
-            "bytes": field.bytes
-        }
-
-        # Only add optional fields if they have meaningful values
-        if field.bits is not None and field.bits > 0:
-            result["bits"] = field.bits
-        if field.lookup:
-            result["lookup"] = field.lookup
-        if field.save:
-            result["save"] = field.save
-        if field.arg:
-            result["arg"] = field.arg
-
-        return result
-
-    def _process_union_field(self, field: StructField) -> Dict[str, Any]:
-        discriminator = self._extract_discriminator_name(field)
-        cases: List[Dict[str, Any]] = []
-
-        if field.union_variants:
-            for variant in field.union_variants:
-                case_num = self._extract_case_number(variant.name)
-                case_fields = []
-                for variant_field in variant.fields:
-                    expanded = self._expand_array_field(variant_field)
-                    case_fields.extend(self._convert_to_dict(f) for f in expanded)
-
-                cases.append({"value": case_num, "fields": case_fields})
-
-        return {
-            "name": field.name,
-            "is_union": True,
-            "discriminator": discriminator,
-            "cases": cases,
-        }
-
-    def _extract_discriminator_name(self, field: StructField) -> str:
-        if field.union_variants and field.union_variants[0].name:
-            variant_name = field.union_variants[0].name
-            if "_" in variant_name:
-                return variant_name.split("_")[0]
-        return "Unknown"
-
-    def _extract_case_number(self, variant_name: str) -> int:
-        if "_" in variant_name:
-            parts = variant_name.split("_")
-            try:
-                return int(parts[-1])
-            except ValueError:
-                pass
-        return 0
-
-    def _expand_array_field(self, field: StructField) -> List[ProcessedField]:
-        expanded_fields: List[ProcessedField] = []
-
-        if hasattr(field, "bits") and field.bits > 0:
-            bitfield = BitField(field.name, field.bits, field.signed)
-            processed = ProcessedField(bitfield)
-            expanded_fields.append(processed)
-            return expanded_fields
-
-        if hasattr(field, "array_size") and field.array_size:
-            if field.base_type == "uint8_t" or field.base_type == "char":
-                expanded_fields.append(ProcessedField(field))
-                return expanded_fields
-
-            for array_idx in range(field.array_size):
-                element_name = f"{field.name}_{array_idx + 1}"
-                element_field = self._create_array_element(field, element_name)
-                if element_field.is_custom_type():
-                    expanded_fields.extend(
-                        ProcessedField(bf) for bf in element_field.get_expanded_fields()
-                    )
-                else:
-                    expanded_fields.append(ProcessedField(element_field))
-            return expanded_fields
-
-        if field.is_custom_type():
-            expanded_fields.extend(
-                ProcessedField(bf) for bf in field.get_expanded_fields()
-            )
-        else:
-            expanded_fields.append(ProcessedField(field))
-
-        return expanded_fields
-
-    def _create_array_element(
-        self, original_field: StructField, element_name: str
-    ) -> StructField:
-        element_field = StructField(original_field._clang_field)
-        element_field.name = element_name
-        element_field.type = original_field.base_type
-        element_field.base_type = original_field.base_type
-        element_field.array_size = None
-        return element_field

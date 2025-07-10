@@ -1,7 +1,8 @@
 import clang.cindex as clang
 
 from renderers.lua import LuaRenderer
-from renderers.viewed import ViewedRenderer, FFXIXmlRenderer
+from renderers.viewed import ViewedRenderer
+from renderers.xml_builder import XMLRenderer  # Import our new renderer
 from packet import Packet
 
 index = clang.Index.create()
@@ -12,7 +13,7 @@ def parse_header(filename, match):
 
     tu = index.parse(filename, args=['-std=c99'])
     for cursor in tu.cursor.walk_preorder():
-        if cursor.kind == clang.CursorKind.STRUCT_DECL:
+        if cursor.kind == getattr(clang.CursorKind, 'STRUCT_DECL'):
             struct_name = cursor.spelling
             if struct_name.startswith(match) and "_COMMAND_" in struct_name:
                 packet = Packet(cursor)
@@ -38,6 +39,6 @@ if __name__ == "__main__":
     viewed_renderer = ViewedRenderer('./generated/viewed/lookup/in.txt')
     viewed_renderer.render(s2c_packets)
 
-    # Render FFXI XML file
-    ffxi_renderer = FFXIXmlRenderer('./generated/viewed/rules/ffxi.xml')
-    ffxi_renderer.render(s2c_packets, c2s_packets)
+    # Render FFXI XML file using our new renderer
+    xml_renderer = XMLRenderer('./generated/viewed/rules/ffxi.xml')
+    xml_renderer.render(s2c_packets, c2s_packets)

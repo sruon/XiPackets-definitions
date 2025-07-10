@@ -2,23 +2,23 @@
 
 struct SAVE_BLACK {
   uint32_t ID;
-  uint8_t Name[16];
+  char Name[16];
 };
 
 typedef struct SAVE_BLACK SAVE_BLACK;
 
 struct GP_BLACK_EDIT {
   uint32_t ID;
-  uint8_t Name[16];
+  char Name[16];
 };
 
 struct _GP_COMBINE_ASK {
   uint8_t HashNo;
   uint8_t padding00;
-  uint16_t Crystal;
+  uint16_t Crystal; // lookup="items"
   uint8_t CrystalIdx;
   uint8_t Items;
-  uint16_t ItemNo[8];
+  uint16_t ItemNo[8]; // lookup="items"
   uint8_t TableNo[8];
 };
 
@@ -118,7 +118,7 @@ struct equipsetrequestitem_t {
 
 struct equipsetitem_t {
   uint8_t ItemIndex;
-  uint8_t EquipKind;
+  uint8_t EquipKind; // lookup="equipslot"
   uint8_t Category; // lookup="containers"
   uint8_t padding00;
 };

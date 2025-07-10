@@ -4,12 +4,12 @@
 struct CLISTATUS {
   int32_t hpmax;
   int32_t mpmax;
-  uint8_t mjob_no;
+  uint8_t mjob_no; // lookup="jobs"
   uint8_t mjob_lv;
-  uint8_t sjob_no;
+  uint8_t sjob_no; // lookup="jobs"
   uint8_t sjob_lv;
-  int16_t exp_now;
-  int16_t exp_next;
+  uint16_t exp_now; // report to atom0s the type change
+  uint16_t exp_next; // report to atom0s the type change
   uint16_t bp_base[7];
   int16_t bp_adj[7];
   int16_t atk;
@@ -20,7 +20,7 @@ struct CLISTATUS {
   uint16_t rankbar;
   uint16_t BindZoneNo;
   uint32_t MonsterBuster;
-  uint8_t nation;
+  uint8_t nation; // lookup="nations"
   uint8_t myroom;
   uint8_t su_lv;
   uint8_t padding00;
@@ -38,7 +38,7 @@ struct CLISTATUS {
 };
 
 // Enums for 0x000B packet
-enum GP_GAME_LOGOUT_STATE {
+enum GP_GAME_LOGOUT_STATE : uint32_t {
   GP_GAME_LOGOUT_STATE_NONE,
   GP_GAME_LOGOUT_STATE_LOGOUT,
   GP_GAME_LOGOUT_STATE_ZONECHANGE,
@@ -52,7 +52,7 @@ enum GP_GAME_LOGOUT_STATE {
   GP_GAME_LOGOUT_STATE_END
 };
 
-enum GP_GAME_ECODE {
+enum GP_GAME_ECODE : uint32_t {
   GP_GAME_ECODE_NOERR,
   GP_GAME_ECODE_RESERR,
   GP_GAME_ECODE_ZONEDOWN,
@@ -96,10 +96,10 @@ enum SAVE_LOGIN_STATE : uint32_t {
 struct GP_MYROOM_DANCER_PKT {
   uint16_t mon_no;
   uint16_t face_no;
-  uint8_t mjob_no;
+  uint8_t mjob_no; // lookup="jobs"
   uint8_t hair_no;
   uint8_t size;
-  uint8_t sjob_no;
+  uint8_t sjob_no; // lookup="jobs"
   uint32_t get_job_flag;
   int8_t job_lev[16];
   uint16_t bp_base[7];
@@ -132,7 +132,7 @@ struct flags0_t {
   uint32_t unknown_1_6 : 1;
   uint32_t GroundFlag : 1;
   uint32_t KingFlag : 1;
-  uint32_t facetarget : 15;
+  uint32_t facetarget : 15; // lookup="@actindex"
 };
 
 struct flags1_t {
@@ -248,7 +248,7 @@ struct MISSION_DATA {
 };
 
 // Enum for 0x0050 EQUIP_LIST packet
-enum SAVE_EQUIP_KIND {
+enum SAVE_EQUIP_KIND : uint8_t {
   SAVE_EQUIP_KIND_RIGHTHAND,
   SAVE_EQUIP_KIND_LEFTHAND,
   SAVE_EQUIP_KIND_BOW,
@@ -321,14 +321,14 @@ struct GP_TRACKING {
   char sName[16]; // save="@ActIndex"
 };
 
-enum GP_TRACKING_POS_STATE {
+enum GP_TRACKING_POS_STATE : uint32_t {
   GP_TRACKING_POS_STATE_NONE,
   GP_TRACKING_POS_STATE_START,
   GP_TRACKING_POS_STATE_LOSE,
   GP_TRACKING_POS_STATE_END
 };
 
-enum GP_TRACKING_STATE {
+enum GP_TRACKING_STATE : uint32_t {
   GP_TRACKING_STATE_NONE,
   GP_TRACKING_STATE_LIST_START,
   GP_TRACKING_STATE_LIST_END,
@@ -337,7 +337,7 @@ enum GP_TRACKING_STATE {
 };
 
 // Structures for myroom packet
-enum GP_MYROOM_RESULT {
+enum GP_MYROOM_RESULT : uint32_t {
   GP_MYROOM_RESULT_OK,
   GP_MYROOM_RESULT_NG_PLANT_ADD_PARAM,
   GP_MYROOM_RESULT_NG_PLANT_CHECK_PARAM,
@@ -349,13 +349,13 @@ enum GP_MYROOM_RESULT {
 };
 
 // Structures for bazaar packets
-enum GP_BAZAAR_BUY_STATE {
+enum GP_BAZAAR_BUY_STATE : uint32_t {
   GP_BAZAAR_BUY_STATE_OK,
   GP_BAZAAR_BUY_STATE_ERR,
   GP_BAZAAR_BUY_STATE_END
 };
 
-enum GP_BAZAAR_SHOPPING_STATE {
+enum GP_BAZAAR_SHOPPING_STATE : uint32_t {
   GP_BAZAAR_SHOPPING_STATE_ENTER,
   GP_BAZAAR_SHOPPING_STATE_EXIT,
   GP_BAZAAR_SHOPPING_STATE_END
@@ -387,14 +387,6 @@ struct GP_MYROOM_GATE {
 struct SAVE_BLACK {
   uint32_t ID;
   char Name[16];
-};
-
-// Structure for 0x009D MYROOM_DIARY packet
-struct GP_MYROOM_DIARY_DATA {
-  uint32_t KillCount;
-  uint32_t DeadCount;
-  uint16_t Rare[10];
-  uint16_t Event[10];
 };
 
 // Structures for 0x00B4 CONFIG packet
@@ -643,31 +635,31 @@ typedef struct {
   uint16_t need_skill_1;
   uint16_t need_skill_2;
   uint16_t need_skill_3;
-  uint16_t need_item;
+  uint16_t need_item; // lookup="items"
   uint16_t need_key_item;
-  uint16_t itemnum[8];
+  uint16_t itemnum[8]; // lookup="items"
   uint16_t itemcount[8];
 } _GP_SERV_COMMAND_RECIPE_Type_1;
 
 typedef struct {
   uint16_t junk00[6];
-  uint16_t itemnum[16];
+  uint16_t itemnum[16]; // lookup="items"
 } _GP_SERV_COMMAND_RECIPE_Type_2;
 
 typedef struct {
-  uint16_t productitem;
+  uint16_t productitem; // lookup="items"
   uint16_t need_skill_1;
   uint16_t need_skill_2;
   uint16_t need_skill_3;
-  uint16_t need_item;
+  uint16_t need_item; // lookup="items"
   uint16_t need_key_item;
-  uint16_t itemnum[8];
+  uint16_t itemnum[8]; // lookup="items"
   uint16_t itemcount[8];
 } _GP_SERV_COMMAND_RECIPE_Type_3;
 
 struct _GP_SERV_COMMAND_ITEM_SUBCONTAINER_Data {
   uint8_t is_used;
-  uint8_t container;
+  uint8_t container; // lookup="containers"
   uint8_t index;
   uint8_t unknown00;
   uint8_t unknown01[2];
@@ -693,9 +685,9 @@ typedef struct {
   uint16_t ItemNo; // lookup="items"
   char sComLinkName[16];
   uint8_t sComColor[2];
-  uint8_t job[2];
+  uint8_t job[2]; // lookup="jobs"
   uint8_t lvl[2];
-  uint8_t mjob;
+  uint8_t mjob; // lookup="jobs"
   uint8_t mlvl;
   uint8_t mflags;
   uint8_t padding01[3];
@@ -717,3 +709,102 @@ typedef struct {
   uint8_t EquipCount;
   checkitem_t Equip[16];
 } _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_3;
+
+struct equipsetrequestitem_t {
+  uint8_t HasItemFlg : 1;
+  uint8_t RemoveItemFlg : 1;
+  uint8_t Category : 6; // lookup="containers"
+  uint8_t ItemIndex;
+  uint16_t ItemNo; // lookup="items"
+};
+
+struct equipsetitem_t {
+  uint8_t ItemIndex;
+  uint8_t EquipKind; // lookup="equipslot"
+  uint8_t Category;  // lookup="containers"
+  uint8_t padding00;
+};
+
+struct jobemotes_t {
+  uint32_t WAR : 1;
+  uint32_t MNK : 1;
+  uint32_t WHM : 1;
+  uint32_t BLM : 1;
+  uint32_t RDM : 1;
+  uint32_t THF : 1;
+  uint32_t PLD : 1;
+  uint32_t DRK : 1;
+  uint32_t BST : 1;
+  uint32_t BRD : 1;
+  uint32_t RNG : 1;
+  uint32_t SAM : 1;
+  uint32_t NIN : 1;
+  uint32_t DRG : 1;
+  uint32_t SMN : 1;
+  uint32_t BLU : 1;
+  uint32_t COR : 1;
+  uint32_t PUP : 1;
+  uint32_t DNC : 1;
+  uint32_t SCH : 1;
+  uint32_t GEO : 1;
+  uint32_t RUN : 1;
+  uint32_t unused : 10;
+};
+
+// PS2: (New; did not exist.)
+struct chairemotes_t {
+  uint16_t ImperialChair : 1;     // Chair: Imperial Chair
+  uint16_t DecorativeChair : 1;   // Chair: Decorative Chair
+  uint16_t OrnateStool : 1;       // Chair: Ornate Stool
+  uint16_t RefinedChair : 1;      // Chair: Refined Chair
+  uint16_t PortableContainer : 1; // Chair: Portable Container
+  uint16_t ChocoboChair : 1;      // Chair: Chocobo Chair
+  uint16_t EphramadianThrone : 1; // Chair: Ephramadian Throne
+  uint16_t ShadowThrone : 1;      // Chair: Shadow Throne
+  uint16_t LeafBench : 1;         // Chair: Leaf Bench
+  uint16_t AstralCube : 1;        // Chair: Astral Cube
+  uint16_t ChocoboChairII : 1;    // Chair: Chocobo Chair II
+  uint16_t unused : 5;
+};
+
+typedef struct {
+  uint16_t model_id;
+  char name[16];
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_0_t;
+
+typedef struct {
+  uint16_t model_id;
+  char name[16];
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_5_t;
+
+typedef struct {
+  uint16_t model_id;
+  char name[16];
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_6_t;
+
+typedef struct {
+  uint16_t GrapIDTbl[9];
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_1_t;
+
+typedef struct {
+  uint16_t GrapIDTbl[9];
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_7_t;
+
+typedef struct {
+  uint16_t unused;
+  uint32_t DoorId;
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_2_t;
+
+typedef struct {
+  uint16_t unused;
+  uint32_t DoorId;
+  uint32_t Time;
+  uint32_t EndTime;
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_3_t;
+
+typedef struct {
+  uint16_t unused;
+  uint32_t DoorId;
+  uint32_t Time;
+  uint32_t EndTime;
+} _GP_SERV_COMMAND_CHAR_NPC_SubKind_4_t;

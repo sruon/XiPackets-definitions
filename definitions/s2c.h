@@ -21,7 +21,7 @@ struct GP_SERV_COMMAND_ENTERZONE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t EnterZoneTbl[48];
+  uint8_t EnterZoneTbl[48]; // type="bits"
 };
 
 /// 0x0009
@@ -29,8 +29,8 @@ struct GP_SERV_COMMAND_MESSAGE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueNo;
-  uint16_t ActIndex;
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
   uint16_t MesNo;
   uint8_t Attr;
   uint8_t Data[128];
@@ -49,13 +49,13 @@ struct GP_SERV_COMMAND_LOGIN {
   uint16_t EventNo;
   uint16_t MapNumber;
   uint16_t GrapIDTbl[9];
-  uint16_t MusicNum[5];
+  uint16_t MusicNum[5]; // lookup="music"
   uint16_t SubMapNumber;
   uint16_t EventNum;
   uint16_t EventPara;
   uint16_t EventMode;
-  uint16_t WeatherNumber;
-  uint16_t WeatherNumber2;
+  uint16_t WeatherNumber;  // lookup="weather"
+  uint16_t WeatherNumber2; // lookup="weather"
   uint32_t WeatherTime;
   uint32_t WeatherTime2;
   uint32_t WeatherOffsetTime;
@@ -113,7 +113,6 @@ struct GP_SERV_COMMAND_CHAR_PC {
   uint32_t BtTargetID;
   uint16_t CostumeId;
   uint8_t BallistaInfo;
-  uint8_t undocumented00;
   flags4_t Flags4;
   uint32_t CustomProperties[2];
   uint16_t PetActIndex; // lookup="@actindex"
@@ -126,45 +125,6 @@ struct GP_SERV_COMMAND_CHAR_PC {
   uint16_t GrapIDTbl[9];
   char name[16]; // save="@UniqueNo" save="@ActIndex"
 };
-
-typedef struct {
-  uint16_t model_id;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_0_t;
-
-typedef struct {
-  uint16_t model_id;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_5_t;
-
-typedef struct {
-  uint16_t model_id;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_6_t;
-
-typedef struct {
-  uint16_t GrapIDTbl[9];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_1_t;
-
-typedef struct {
-  uint16_t GrapIDTbl[9];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_7_t;
-
-typedef struct {
-  uint16_t unused;
-  uint32_t DoorId;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_2_t;
-
-typedef struct {
-  uint16_t unused;
-  uint32_t DoorId;
-  uint32_t Time;
-  uint32_t EndTime;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_3_t;
-
-typedef struct {
-  uint16_t unused;
-  uint32_t DoorId;
-  uint32_t Time;
-  uint32_t EndTime;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_4_t;
 
 /// 0x000E
 struct GP_SERV_COMMAND_CHAR_NPC {
@@ -303,9 +263,10 @@ struct GP_SERV_COMMAND_ITEM_NUM {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t ItemNum;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t ItemIndex;
   uint8_t LockFlg;
+  uint8_t undocumented00;
 };
 
 /// 0x001F
@@ -613,7 +574,7 @@ struct GP_SERV_COMMAND_SERVERSTATUS {
   flags4_t Flags4;
   uint8_t model_hitbox_size;
   flags5_t Flags5;
-  uint8_t mount_id;
+  uint8_t mount_id; // lookup="mounts"
   flags6_t Flags6;
 };
 
@@ -636,7 +597,7 @@ struct GP_SERV_COMMAND_MAPSCHEDULOR {
   uint16_t sync;
   uint32_t UniqueNoCas; // lookup="@uniqueno"
   uint32_t UniqueNoTar; // lookup="@uniqueno"
-  uint32_t id_scheduler;
+  char id_scheduler[4];
   uint16_t ActIndexCast; // lookup="@actindex"
   uint16_t ActIndexTar;  // lookup="@actindex"
 };
@@ -765,7 +726,7 @@ struct GP_SERV_COMMAND_TRANSLATE_RESPONSE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t FromIndex;
   uint8_t ToIndex;
   char FromString[64];
@@ -858,8 +819,8 @@ struct GP_SERV_COMMAND_EQUIP_LIST {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t PropertyItemIndex;
-  SAVE_EQUIP_KIND EquipKind;
-  uint8_t Category;
+  SAVE_EQUIP_KIND EquipKind; // lookup="equipslot"
+  uint8_t Category;          // lookup="containers"
   uint8_t padding00;
 };
 
@@ -928,7 +889,7 @@ struct GP_SERV_COMMAND_WEATHER {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t StartTime;
-  uint16_t WeatherNumber;
+  uint16_t WeatherNumber; // lookup="weather"
   uint16_t WeatherOffsetTime;
 };
 
@@ -1023,8 +984,8 @@ struct GP_SERV_COMMAND_MUSIC {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t Slot;
-  uint16_t MusicNum;
+  uint16_t Slot;     // lookup="bgmtype"
+  uint16_t MusicNum; // lookup="music"
 };
 
 /// 0x0060
@@ -1060,7 +1021,7 @@ struct GP_SERV_COMMAND_MULTI_DATA {
   uint16_t sync;
   uint16_t type;
   uint16_t unknown00;
-  uint8_t data[128];
+  char data[128];
 };
 
 /// 0x0064
@@ -1129,11 +1090,11 @@ struct GP_SERV_COMMAND_COMBINE_ANS {
   int8_t Grade;
   uint8_t Count;
   uint8_t padding00;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t BreakNo[8];
   uint16_t UniqueNo; // lookup="@uniqueno"
   uint16_t ActIndex; // lookup="@actindex"
-  uint8_t name[16];
+  char name[16];
   uint8_t padding01[2];
 };
 
@@ -1146,11 +1107,11 @@ struct GP_SERV_COMMAND_COMBINE_INF {
   int8_t Grade;
   uint8_t Count;
   uint8_t padding00;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint16_t BreakNo[8];
   uint16_t UniqueNo; // lookup="@uniqueno"
   uint16_t ActIndex; // lookup="@actindex"
-  uint8_t name[16];
+  char name[16];
   uint8_t padding01[2];
 };
 
@@ -1230,7 +1191,7 @@ struct GP_SERV_COMMAND_SWITCH_PROC {
   uint8_t Kind;
   uint8_t State;
   uint8_t QuestionNum;
-  uint8_t sPropName[15];
+  char sPropName[15];
   char Str[128];
 };
 
@@ -1246,7 +1207,7 @@ struct GP_SERV_COMMAND_GUILD_BUY {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t Count;
   int8_t Trade;
 };
@@ -1266,7 +1227,7 @@ struct GP_SERV_COMMAND_GUILD_SELL {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t ItemNo;
+  uint16_t ItemNo; // lookup="items"
   uint8_t Count;
   int8_t Trade;
 };
@@ -1371,21 +1332,13 @@ struct GP_SERV_COMMAND_MYROOM_HARVEST {
   uint8_t padding00[3];
 };
 
-/// 0x009D
-struct GP_SERV_COMMAND_MYROOM_DIARY {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  GP_MYROOM_DIARY_DATA data;
-};
-
 /// 0x009E
 struct GP_SERV_COMMAND_MYROOM_PLACE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
   int8_t job_lev[16];
-  int8_t curjob[2];
+  int8_t curjob[2]; // lookup="jobs"
   int8_t second;
 };
 
@@ -1394,8 +1347,8 @@ struct GP_SERV_COMMAND_MAP_GROUP {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t UniqueID;
-  int16_t zone; // lookup="zones"
+  uint32_t UniqueID; // lookup="@uniqueno"
+  int16_t zone;      // lookup="zones"
   uint16_t padding00;
   float x;
   float y;
@@ -1441,7 +1394,7 @@ struct GP_SERV_COMMAND_MOUNT_DATA {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t MountDataTbl[8];
+  uint8_t MountDataTbl[8]; // lookup="mounts"
 };
 
 /// 0x00B4
@@ -1476,7 +1429,7 @@ struct GP_SERV_COMMAND_SET_GMMSG {
   uint32_t msgId;
   uint16_t seqId;
   uint16_t pktNum;
-  uint8_t Msg[128];
+  char Msg[128];
 };
 
 /// 0x00B7
@@ -1498,7 +1451,7 @@ struct GP_SERV_COMMAND_BATTLEFIELD_EVENT {
   uint16_t unknown04;
   uint16_t Result;
   uint32_t unknown08;
-  uint32_t ActIndex;
+  uint32_t ActIndex; // lookup="@actindex"
 };
 
 /// 0x00C8
@@ -1535,12 +1488,32 @@ struct GP_SERV_COMMAND_INSPECT_MESSAGE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t sInspectMessage[123];
+  char sInspectMessage[123];
   uint8_t BazaarFlag : 1;
   uint8_t MyFlag : 1;
-  uint8_t Race : 6;
+  uint8_t Race : 6; // lookup="raceandgender"
   char sName[16];
   uint32_t DesignationNo;
+};
+
+/// 0x00CC
+struct GP_SERV_COMMAND_LINKSHELL_MESSAGE {
+  uint16_t id : 9;
+  uint16_t size : 7;
+  uint16_t sync;
+  uint8_t stat : 4;
+  uint8_t attr : 4;
+  uint8_t readLevel : 2;
+  uint8_t writeLevel : 2;
+  uint8_t pubEditLevel : 2;
+  uint8_t linkshell_index : 2;
+  uint16_t seqId;
+  char sMessage[128];
+  uint32_t updateTime;
+  uint8_t modifier[16];
+  uint16_t opType;
+  uint16_t padding00;
+  uint8_t encodedLsName[16];
 };
 
 /// 0x00D2
@@ -1552,7 +1525,7 @@ struct GP_SERV_COMMAND_TROPHY_LIST {
   uint32_t TargetUniqueNo; // lookup="@uniqueno"
   uint16_t Gold;
   uint16_t padding00;
-  uint16_t TrophyItemNo;
+  uint16_t TrophyItemNo;   // lookup="items"
   uint16_t TargetActIndex; // lookup="@actindex"
   uint8_t TrophyItemIndex;
   uint8_t Entry;
@@ -1564,7 +1537,7 @@ struct GP_SERV_COMMAND_TROPHY_LIST {
   uint32_t LootUniqueNo; // lookup="@uniqueno"
   uint16_t LootActIndex; // lookup="@actindex"
   uint16_t LootPoint;
-  uint8_t LootActName[16];
+  char LootActName[16];
   uint8_t NamedFlag : 1;
   uint8_t SingleFlag : 1;
   uint8_t Flags_2 : 2;
@@ -1593,13 +1566,13 @@ struct GP_SERV_COMMAND_GROUP_LIST {
   uint8_t Mpp;
   uint8_t padding00;
   uint16_t ZoneNo; // lookup="zones"
-  uint8_t mjob_no;
+  uint8_t mjob_no; // lookup="jobs"
   uint8_t mjob_lv;
-  uint8_t sjob_no;
+  uint8_t sjob_no; // lookup="jobs"
   uint8_t sjob_lv;
   uint8_t masterjob_lv;
   uint8_t masterjob_flags;
-  uint8_t Name[16];
+  char Name[16];
 };
 
 /// 0x00DE
@@ -1628,12 +1601,13 @@ struct GP_SERV_COMMAND_GROUP_ATTR {
   uint16_t ZoneNo; // lookup="zones"
   uint16_t MonstrosityFlag;
   uint16_t MonstrosityNameId;
-  uint8_t mjob_no;
+  uint8_t mjob_no; // lookup="jobs"
   uint8_t mjob_lv;
-  uint8_t sjob_no;
+  uint8_t sjob_no; // lookup="jobs"
   uint8_t sjob_lv;
   uint8_t masterjob_lv;
   uint8_t masterjob_flags;
+  uint16_t undocumented00;
 };
 
 /// 0x00E0
@@ -1643,7 +1617,7 @@ struct GP_SERV_COMMAND_GROUP_COMLINK {
   uint16_t sync;
   uint8_t LinkshellNum;
   uint8_t ItemIndex;
-  uint8_t Category;
+  uint8_t Category; // lookup="containers"
   uint8_t padding00;
 };
 
@@ -1673,13 +1647,13 @@ struct GP_SERV_COMMAND_GROUP_LIST2 {
   uint8_t Mpp;
   uint8_t padding00;
   uint16_t ZoneNo; // lookup="zones"
-  uint8_t mjob_no;
+  uint8_t mjob_no; // lookup="jobs"
   uint8_t mjob_lv;
-  uint8_t sjob_no;
+  uint8_t sjob_no; // lookup="jobs"
   uint8_t sjob_lv;
   uint8_t masterjob_lv;
   uint8_t masterjob_flags;
-  uint8_t Name[16];
+  char Name[16];
 };
 
 /// 0x00E6
@@ -1995,7 +1969,7 @@ struct GP_SERV_COMMAND_EQUIPMENT_SET_RESPONSE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t Items[68];
+  equipsetrequestitem_t Items[17];
 };
 
 /// 0x0117
@@ -2005,8 +1979,8 @@ struct GP_SERV_COMMAND_EQUIPSET_VALIDATION {
   uint16_t sync;
   uint8_t Count;
   uint8_t padding00[3];
-  uint8_t ItemsChanged[64];
-  uint8_t ItemsEquipped[64];
+  equipsetitem_t ItemsChanged[16];
+  equipsetitem_t ItemsEquipped[16];
 };
 
 /// 0x0118
@@ -2126,28 +2100,9 @@ struct GP_SERV_COMMAND_EMOTELIST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint32_t JobEmotes;
-  uint16_t Chairs;
+  jobemotes_t JobEmotes;
+  chairemotes_t Chairs;
   uint16_t padding00;
-};
-
-/// 0x011B
-struct GP_SERV_COMMAND_LOCKSTYLE_TOGGLE {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint8_t Status;
-  uint8_t padding00[3];
-};
-
-/// 0x011C
-struct GP_SERV_COMMAND_LOCKSTYLE_VALIDATION {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint8_t Count;
-  uint8_t padding00[3];
-  uint16_t ItemNo[16]; // lookup="items"
 };
 
 /// 0x011D
@@ -2160,7 +2115,7 @@ struct GP_SERV_COMMAND_PARTY_REQUEST {
   uint8_t Flags;
   uint8_t Status;
   char sName[16];
-  uint16_t Race;
+  uint16_t Race; // lookup="raceandgender"
   uint8_t padding00[2];
 };
 
@@ -2171,24 +2126,4 @@ struct GP_SERV_COMMAND_JUMP {
   uint16_t sync;
   uint16_t ActIndex; // lookup="@actindex"
   uint8_t padding00[2];
-};
-
-/// 0x00CC
-struct GP_SERV_COMMAND_LINKSHELL_MESSAGE {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint8_t stat : 4;
-  uint8_t attr : 4;
-  uint8_t readLevel : 2;
-  uint8_t writeLevel : 2;
-  uint8_t pubEditLevel : 2;
-  uint8_t linkshell_index : 2;
-  uint16_t seqId;
-  uint8_t sMessage[128];
-  uint32_t updateTime;
-  uint8_t modifier[16];
-  uint16_t opType;
-  uint16_t padding00;
-  uint8_t encodedLsName[16];
 };
