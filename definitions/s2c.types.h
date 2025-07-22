@@ -1010,3 +1010,191 @@ struct _GP_SERV_COMMAND_JOB_EXTRA_DATA_MON {
   uint16_t SpeciesId;
   uint16_t EquippedInstincts[12];
 };
+
+struct coalitionranks_t {
+  uint32_t Pioneers : 4;
+  uint32_t Peacekeepers : 4;
+  uint32_t Couriers : 4;
+  uint32_t Scouts : 4;
+  uint32_t Inventors : 4;
+  uint32_t Mummers : 4;
+  uint32_t unused : 8;
+};
+
+struct colonizationzone_t {
+  uint32_t ColonizationRate : 7;
+  uint32_t CurrentBivouacs : 3;
+  uint32_t MaxBivouacs : 3;
+  uint32_t unused : 19;
+};
+
+struct colonizationzones_t {
+  colonizationzone_t unused;
+  colonizationzone_t YahseHuntingGrounds;
+  colonizationzone_t CeizakBattlegrounds;
+  colonizationzone_t ForetDeHennetiel;
+  colonizationzone_t YorciaWeald;
+  colonizationzone_t MorimarBasaltFields;
+  colonizationzone_t MarjamiRavine;
+  colonizationzone_t KamihrDrifts;
+  colonizationzone_t RaKaznar;
+};
+
+struct _GP_SERV_COMMAND_CAMPAIGN_MAP_Mode_3 {
+  uint8_t padding00;
+  uint8_t Length;
+  uint8_t padding01;
+  uint32_t unknown00;
+  uint32_t unknown01;
+  coalitionranks_t Ranks;
+  colonizationzones_t Zones;
+  int32_t Bayld;
+};
+struct campaigncontrolledareas_t {
+  uint32_t Sandoria : 5;
+  uint32_t Bastok : 5;
+  uint32_t Windurst : 5;
+  uint32_t Beastman : 5;
+  uint32_t unused : 12;
+};
+
+struct campaignnation_t {
+  uint32_t Reconnaissance : 4;
+  uint32_t unused : 14;
+  uint32_t Morale : 7;
+  uint32_t Prosperity : 7;
+};
+
+struct campaignnations_t {
+  campaignnation_t Sandoria;
+  campaignnation_t Bastok;
+  campaignnation_t Windurst;
+  campaignnation_t BeastmanOrc;
+  campaignnation_t BeastmanQuadav;
+  campaignnation_t BeastmanYagudo;
+  campaignnation_t BeastmanDarkKindred;
+};
+
+struct campaignzone_t {
+  uint32_t unused00 : 1;
+  uint32_t Owner : 3;
+  uint32_t CurrentFortifications : 10;
+  uint32_t CurrentResources : 10;
+  uint32_t Heroism : 8;
+  uint8_t InfluenceSandoria;
+  uint8_t InfluenceBastok;
+  uint8_t InfluenceWindurst;
+  uint8_t InfluenceBeastman;
+  uint32_t MaxFortifications : 10;
+  uint32_t MaxResources : 10;
+  uint32_t unused01 : 12;
+};
+
+struct _GP_SERV_COMMAND_CAMPAIGN_MAP_Mode_2 {
+  uint8_t padding00;
+  uint8_t Length;
+  uint8_t padding01;
+  uint8_t padding02;
+  uint8_t ZoneOffset;
+  uint8_t padding03[2];
+  int32_t AlliedNotes;
+  campaigncontrolledareas_t ControlledAreas;
+  campaignnations_t Nations;
+  campaignzone_t Zones[13];
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_merit
+{
+    uint8_t unknown[128];
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_mon1
+{
+    uint32_t    data;
+    uint32_t    flags;
+    uint16_t    unknown00; // Unused.
+    uint16_t    infamy;
+    uint32_t    prestige;
+    uint32_t    unknown01; // Unused.
+    uint8_t     instincts[64];
+    uint8_t     levels[128];
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_mon2
+{
+    uint8_t     unknown00[128];
+    uint32_t    unknown01[3];
+    uint32_t    unknown02[8];
+};
+
+struct jobpointentry_t
+{
+    uint16_t        capacity_points;
+    uint16_t        points;
+    uint16_t        points_spent;
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_job_points
+{
+    uint8_t         flags;
+    uint8_t         unknown00[3];
+    jobpointentry_t jobs[24];
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_homepoints
+{
+    uint32_t home_point[4];
+    uint32_t survival_guide[4];
+    uint32_t waypoint[4];
+    uint32_t telepoint;
+    uint32_t atmos;
+    uint32_t eschan_portal;
+    uint32_t unknown00;     // Unsure if Eschal Portal uses this as well.
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_unity {
+    uint8_t unknown[128];
+};
+
+struct _GP_SERV_COMMAND_MULTI_DATA_status_icons
+{
+    int16_t     icon[32];
+    uint32_t    timestamp[32];
+};
+
+struct partymemberbuffs_t
+{
+    uint32_t    UniqueNo;
+    uint16_t    ActIndex;
+    uint16_t    padding00;
+    uint64_t    Bits;
+    uint8_t     Buffs[32];
+};
+
+struct jobpoint_t
+{
+    uint16_t    index: 5;
+    uint16_t    job_no: 11; // lookup="jobs"
+    uint16_t    next: 10;
+    uint16_t    level: 6;
+};
+
+struct _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_1 {
+  uint8_t padding00[3];
+  uint32_t RaceParams[2];
+  uint8_t junk00[4];
+};
+
+struct _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_2 {
+  uint8_t ParamIndex;
+  uint8_t ParamSize;
+  uint8_t padding00;
+  uint8_t ParamData[192];
+};
+
+struct _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_4 {
+  uint8_t padding00;
+  uint8_t ParamSize;
+  uint8_t padding01;
+  uint8_t ParamData1[192];
+};

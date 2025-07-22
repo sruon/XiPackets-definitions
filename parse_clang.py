@@ -19,8 +19,13 @@ def parse_header(filename, match):
         if cursor.kind == getattr(clang.CursorKind, 'STRUCT_DECL'):
             struct_name = cursor.spelling
             if struct_name.startswith(match) and "_COMMAND_" in struct_name:
-                packet = Packet.from_cursor(cursor)
-                res.append(packet)
+                try:
+                    packet = Packet.from_cursor(cursor)
+                    res.append(packet)
+                except Exception as e:
+                    print(f"ERROR parsing packet {struct_name}: {e}")
+                    print(f"  Location: {cursor.location}")
+                    raise
     return res
 
 
