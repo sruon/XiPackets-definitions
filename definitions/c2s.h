@@ -243,16 +243,6 @@ struct GP_CLI_COMMAND_ITEM_TRADE_LIST {
   uint8_t TradeIndex;
 };
 
-/// 0x0035
-struct GP_CLI_COMMAND_ITEM_PRESENT {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint8_t Index;
-  uint8_t ReqID;
-  uint8_t TakeFlg;
-};
-
 /// 0x0036
 struct GP_CLI_COMMAND_ITEM_TRANSFER {
   uint16_t id : 9;
