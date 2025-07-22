@@ -1,12 +1,14 @@
 from typing import List, Optional, Dict, Any, Union, cast
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from packet import Packet
-from fields import StructField, BitField, UnionVariant
+from packets import Packet
+from fields import StructField, UnionVariant
+import os
 
 
 class XMLField:
     """Base class for XML field representations"""
+
     def __init__(self, name: str) -> None:
         self.name = name
 
@@ -16,6 +18,7 @@ class XMLField:
 
 class ArrayField(XMLField):
     """Represents an array field in XML with loop structure"""
+
     def __init__(self, name: str, base_type: str, array_size: int,
                  bits: Optional[int] = None, lookup: Optional[str] = None,
                  struct_fields: Optional[List[XMLField]] = None) -> None:
@@ -29,19 +32,6 @@ class ArrayField(XMLField):
     def to_xml(self, indent: str = "") -> List[Element]:
         """Convert to XML element"""
         result: List[Element] = []
-
-        # <echo arg="GrapIDTbl[]">
-        #     <mov dst="GrapIDTbl[]" val="0" />
-        #     <loop>
-        #         <ifgte arg1="#GrapIDTbl[]" arg2="9">
-        #             <break />
-        #         </ifgte>
-        #         <echo name="Index" arg="GrapIDTbl[]">
-        #             <data type="uint16" name="GrapIDTbl" />
-        #         </echo>
-        #         <add dst="GrapIDTbl[]" arg1="#GrapIDTbl[]" arg2="1" />
-        #     </loop>
-        # </echo>
 
         root_name = f"{self.name}[]"
         # Create root loop element
@@ -109,6 +99,7 @@ class ArrayField(XMLField):
 
 class DataField(XMLField):
     """Represents a basic data field in XML"""
+
     def __init__(self, name: str, xml_type: str, bits: Optional[int] = None,
                  array_size: Optional[int] = None, lookup: Optional[str] = None,
                  save: Optional[List[str]] = None, base_type: Optional[str] = None) -> None:
@@ -158,41 +149,10 @@ class DataField(XMLField):
 
         return result if len(result) > 1 else result[0]
 
-    def _get_base_type(self) -> str:
-        """Get the base type for arrays"""
-        # Map array type 'a' to the actual base type
-        type_map = {
-            "a": {
-                "uint8_t": "byte",
-                "uint16_t": "uint16",
-                "uint32_t": "uint32",
-                "uint64_t": "uint64",
-                "int8_t": "byte",
-                "int16_t": "int16",
-                "int32_t": "int32",
-                "int64_t": "int64",
-                "float": "float",
-                "double": "double",
-                "char": "byte",
-                "bit": "bitval",
-                "int": "int",
-                "uint": "uint",
-                "unsigned int": "uint32",
-                "unsigned short": "uint16",
-                "unsigned char": "byte",
-                "unsigned long": "uint64",
-                "long long": "int64",
-            }
-        }
-        if self.xml_type == "a":
-            # Extract the base type from the field type
-            base_type = self.xml_type.split("[")[0] if "[" in self.xml_type else self.xml_type
-            return type_map["a"].get(base_type, "byte")
-        return self.xml_type
-
 
 class EchoField(XMLField):
     """Represents a struct group in XML with echo tag"""
+
     def __init__(self, name: str, fields: List[XMLField]) -> None:
         super().__init__(name)
         self.fields = fields
@@ -216,6 +176,7 @@ class EchoField(XMLField):
 
 class UnionField(XMLField):
     """Represents a union field in XML with ifeq tags"""
+
     def __init__(self, discriminator: str, cases: Dict[str, List[XMLField]]) -> None:
         super().__init__("")
         self.discriminator = discriminator
@@ -243,6 +204,7 @@ class UnionField(XMLField):
 
 class XMLPacket:
     """Represents a packet in XML"""
+
     def __init__(self, packet_id: str, description: str, fields: List[XMLField]) -> None:
         self.packet_id = packet_id
         self.description = description
@@ -268,6 +230,7 @@ class XMLPacket:
 
 class XMLRenderer:
     """Renders packets to XML format"""
+
     def __init__(self, output_file: str) -> None:
         self.output_file = output_file
 
@@ -298,6 +261,9 @@ class XMLRenderer:
             c2s.append(self._process_packet(packet).to_xml("\t\t"))
 
         # Write to file
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
+
         xml_str = tostring(root, encoding='unicode')
         pretty_xml = minidom.parseString(xml_str).toprettyxml(indent="\t")
         with open(self.output_file, 'w', encoding='utf-8') as f:
@@ -308,81 +274,60 @@ class XMLRenderer:
         fields = []
         for field in packet.fields:
             # Skip packet header fields (id, size, sync)
-            if isinstance(field, StructField) and field.name not in ["id", "size", "sync"]:
+            if field.name not in ["id", "size", "sync"]:
                 fields.append(self._convert_field(field))
         return XMLPacket(packet.id, packet.name, fields)
 
     def _convert_field(self, field: StructField) -> XMLField:
         """Convert a field to its XML representation"""
         # Handle union fields
-        if field.is_union_type():
-            # Get the discriminator field name from the hints or from the variant name prefix
-            if field.union_variants:
-                # Extract discriminator from the first variant name (e.g., "Mode_2" -> "Mode")
-                first_variant = field.union_variants[0].name
-                discriminator = first_variant.split("_")[0]
-                discriminator = field.hints.get("discriminator", discriminator) if field.hints else discriminator
-
-                cases = {}
-                for variant in field.union_variants:
-                    processed_fields = []
-                    for variant_field in variant.fields:
-                        if isinstance(variant_field, StructField):
-                            processed_fields.append(self._convert_field(variant_field))
-                    # Extract case number from variant name
-                    case_value = variant.name.split("_")[-1]
-                    cases[case_value] = processed_fields
-                return UnionField(discriminator, cases)
+        if field.has_variants:
+            discriminator = field.discriminator_field or "unknown"
+            cases = {}
+            for variant in field.union_variants:
+                processed_fields = []
+                for variant_field in variant.fields:
+                    processed_fields.append(self._convert_field(variant_field))
+                cases[str(variant.discriminator_value)] = processed_fields
+            return UnionField(discriminator, cases)
 
         # Handle struct arrays - create an array field that contains an echo field
-        if field.is_custom_type() and field.array_size is not None and field.array_size > 0:
-            expanded_fields = field.get_expanded_fields()
-            if expanded_fields and not isinstance(expanded_fields, dict):
-                processed_fields = []
-                for expanded_field in expanded_fields:
-                    if isinstance(expanded_field, StructField):
-                        processed_fields.append(self._convert_field(expanded_field))
-                    elif isinstance(expanded_field, BitField):
-                        # Only include bits if not -1
-                        bits = None if expanded_field.bits == -1 else expanded_field.bits
-                        processed_fields.append(DataField(expanded_field.name, "bitval", bits))
-                if processed_fields:
-                    # Create an array field that wraps an echo field
-                    return ArrayField(field.name, "struct", field.array_size, None, None, processed_fields)
+        if not field.is_primitive and field.is_array and field.has_nested_fields:
+            processed_fields = []
+            for nested_field in field.nested_fields:
+                processed_fields.append(self._convert_field(nested_field))
+            if processed_fields:
+                return ArrayField(field.name, "struct", field.array_size, None, None, processed_fields)
 
         # Handle struct groups
-        if field.is_custom_type() and not field.is_enum and not field.array_size:
-            expanded_fields = field.get_expanded_fields()
-            if expanded_fields and not isinstance(expanded_fields, dict):
-                processed_fields = []
-                for expanded_field in expanded_fields:
-                    if isinstance(expanded_field, StructField):
-                        processed_fields.append(self._convert_field(expanded_field))
-                    elif isinstance(expanded_field, BitField):
-                        # Only include bits if not -1
-                        bits = None if expanded_field.bits == -1 else expanded_field.bits
-                        processed_fields.append(DataField(expanded_field.name, "bitval", bits))
-                if processed_fields:
-                    return EchoField(field.name, processed_fields)
+        if not field.is_primitive and not field.is_enum and field.has_nested_fields and not field.is_array:
+            processed_fields = []
+            for nested_field in field.nested_fields:
+                processed_fields.append(self._convert_field(nested_field))
+            if processed_fields:
+                return EchoField(field.name, processed_fields)
 
         # Handle bit fields
-        if isinstance(field, BitField):
-            # Only include bits if not -1
-            bits = None if field.bits == -1 else field.bits
-            return DataField(field.name, "bitval", bits, None, None, None)
+        if field.is_bitfield:
+            return DataField(field.name, "bitval", field.bits, None, None, None)
 
         # Handle basic fields
         xml_type = self._determine_xml_type(field)
-        # Preserve the @ prefix from the original save hints
-        save_hints = field.hints.get("save", []) if field.hints else None
-        if isinstance(save_hints, str):
-            save_hints = [save_hints]
-        array_size = field.array_size if field.array_size is not None and field.array_size > 0 else None
+
+        # Extract save hints
+        save_hints = None
+        if field.hints and "save" in field.hints:
+            save = field.hints["save"]
+            save_hints = [save] if isinstance(save, str) else save
+
+        # Extract lookup
         lookup = field.hints.get("lookup") if field.hints else None
+
+        array_size = field.array_size if field.is_array else None
 
         # For arrays, get the base type
         base_type = None
-        if array_size is not None and array_size > 0:
+        if field.is_array:
             # Handle char arrays (strings) as text fields
             if field.base_type == "char":
                 return DataField(field.name, "t", None, array_size, lookup, save_hints, None)
@@ -393,12 +338,6 @@ class XMLRenderer:
                 raise ValueError(f"Unknown base type: {field.base_type} for field {field.name}")
             xml_type = "a"
 
-        # Handle bit fields at the top level
-        if hasattr(field, 'bits') and field.bits is not None:
-            # Only include bits if not -1
-            bits = None if field.bits == -1 else field.bits
-            return DataField(field.name, "bitval" if bits is not None else xml_type, bits, array_size, lookup, save_hints, base_type)
-
         return DataField(field.name, xml_type, None, array_size, lookup, save_hints, base_type)
 
     def _determine_xml_type(self, field: StructField) -> str:
@@ -408,7 +347,7 @@ class XMLRenderer:
             return field.hints["type"]
 
         # Handle arrays
-        if field.array_size is not None and field.array_size > 0:
+        if field.is_array:
             return "t" if field.base_type == "char" else "a"
 
         # Handle direction fields
@@ -417,21 +356,17 @@ class XMLRenderer:
 
         # Handle enums
         if field.is_enum:
-            if field.enum_type:
-                mapped_type = self._map_type(field.enum_type)
+            if field.enum_underlying_type:
+                mapped_type = self._map_type(field.enum_underlying_type)
                 if mapped_type is None:
-                    # Default to uint32 if we can't determine the enum's underlying type
-                    return "uint32"
+                    return "uint32"  # Default for unknown enum types
                 return mapped_type
             return "uint32"  # Default for enums without explicit type
 
-        field_type = field.type if hasattr(field, "type") else field.base_type
-        mapped_type = self._map_type(field_type)
+        # Handle regular types
+        mapped_type = self._map_type(field.base_type)
         if mapped_type is None:
-            # For enums, try to extract the underlying type from the field_type string
-            if field_type.startswith("enum "):
-                return "uint32"  # Default for enums without explicit type
-            raise ValueError(f"Unknown type: {field_type} for field {field.name}")
+            raise ValueError(f"Unknown type: {field.base_type} for field {field.name}")
         return mapped_type
 
     def _map_type(self, type_name: str) -> Optional[str]:
@@ -454,7 +389,5 @@ class XMLRenderer:
             "unsigned int": "uint32",
             "unsigned short": "uint16",
             "unsigned char": "byte",
-            "unsigned long": "uint64",
-            "long long": "int64",
         }
         return type_map.get(type_name)

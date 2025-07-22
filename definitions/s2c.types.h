@@ -8,7 +8,7 @@ struct CLISTATUS {
   uint8_t mjob_lv;
   uint8_t sjob_no; // lookup="jobs"
   uint8_t sjob_lv;
-  uint16_t exp_now; // report to atom0s the type change
+  uint16_t exp_now;  // report to atom0s the type change
   uint16_t exp_next; // report to atom0s the type change
   uint16_t bp_base[7];
   int16_t bp_adj[7];
@@ -595,7 +595,7 @@ struct GP_POST_BOX_STATE {
   uint8_t Data[28];
 };
 
-typedef struct {
+struct _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_2 {
   uint16_t ActIndex;       // lookup="@actindex"
   uint32_t UniqueNo;       // lookup="@uniqueno"
   uint16_t ActIndexFellow; // lookup="@actindex"
@@ -609,18 +609,18 @@ typedef struct {
   uint8_t mjob_lv;
   uint8_t unknown26;
   uint8_t MogExpansionFlag;
-} _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_2;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_3 {
   uint16_t ActIndex;           // lookup="@actindex"
   uint32_t UniqueNo;           // lookup="@uniqueno"
   uint16_t ActIndexTrustOwner; // lookup="@actindex"
   uint16_t padding00;
   uint32_t NameFlags;
   char Name[15];
-} _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_3;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4 {
   uint16_t ActIndex;      // lookup="@actindex"
   uint32_t UniqueNo;      // lookup="@uniqueno"
   uint16_t ActIndexOwner; // lookup="@actindex"
@@ -629,9 +629,9 @@ typedef struct {
   uint32_t Tp;
   uint32_t UniqueNoTarget; // lookup="@uniqueno"
   char Name[15];
-} _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_RECIPE_Type_1 {
   uint16_t need_skill_1;
   uint16_t need_skill_2;
   uint16_t need_skill_3;
@@ -639,14 +639,14 @@ typedef struct {
   uint16_t need_key_item;
   uint16_t itemnum[8]; // lookup="items"
   uint16_t itemcount[8];
-} _GP_SERV_COMMAND_RECIPE_Type_1;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_RECIPE_Type_2 {
   uint16_t junk00[6];
   uint16_t itemnum[16]; // lookup="items"
-} _GP_SERV_COMMAND_RECIPE_Type_2;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_RECIPE_Type_3 {
   uint16_t productitem; // lookup="items"
   uint16_t need_skill_1;
   uint16_t need_skill_2;
@@ -655,7 +655,7 @@ typedef struct {
   uint16_t need_key_item;
   uint16_t itemnum[8]; // lookup="items"
   uint16_t itemcount[8];
-} _GP_SERV_COMMAND_RECIPE_Type_3;
+};
 
 struct _GP_SERV_COMMAND_ITEM_SUBCONTAINER_Data {
   uint8_t is_used;
@@ -674,13 +674,13 @@ struct _GP_SERV_COMMAND_ITEM_SUBCONTAINER_Data {
   uint16_t model_id_range;
 };
 
-typedef struct {
+struct _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_0 {
   uint8_t padding00;
   uint16_t ItemNo; // lookup="items"
   SAVE_EQUIP_KIND EquipKind;
-} _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_0;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_1 {
   uint8_t padding00[3];
   uint16_t ItemNo; // lookup="items"
   char sComLinkName[16];
@@ -698,17 +698,17 @@ typedef struct {
   uint32_t MesNo;
   int32_t Params[5];
   uint8_t padding03[8];
-} _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_1;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_2 {
   uint16_t ItemNo[8]; // lookup="items"
   uint8_t EquipKind[8];
-} _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_2;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_3 {
   uint8_t EquipCount;
   checkitem_t Equip[16];
-} _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_3;
+};
 
 struct equipsetrequestitem_t {
   uint8_t HasItemFlg : 1;
@@ -767,44 +767,246 @@ struct chairemotes_t {
   uint16_t unused : 5;
 };
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_0_t {
   uint16_t model_id;
   char name[16];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_0_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_5_t {
   uint16_t model_id;
   char name[16];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_5_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_6_t {
   uint16_t model_id;
   char name[16];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_6_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_1_t {
   uint16_t GrapIDTbl[9];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_1_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_7_t {
   uint16_t GrapIDTbl[9];
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_7_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_2_t {
   uint16_t unused;
   uint32_t DoorId;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_2_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_3_t {
   uint16_t unused;
   uint32_t DoorId;
   uint32_t Time;
   uint32_t EndTime;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_3_t;
+};
 
-typedef struct {
+struct _GP_SERV_COMMAND_CHAR_NPC_SubKind_4_t {
   uint16_t unused;
   uint32_t DoorId;
   uint32_t Time;
   uint32_t EndTime;
-} _GP_SERV_COMMAND_CHAR_NPC_SubKind_4_t;
+};
+
+struct joblevels_t {
+  uint8_t WAR;
+  uint8_t MNK;
+  uint8_t WHM;
+  uint8_t BLM;
+  uint8_t RDM;
+  uint8_t THF;
+  uint8_t PLD;
+  uint8_t DRK;
+  uint8_t BST;
+  uint8_t BRD;
+  uint8_t RNG;
+  uint8_t SAM;
+  uint8_t NIN;
+  uint8_t DRG;
+  uint8_t SMN;
+  uint8_t BLU;
+  uint8_t COR;
+  uint8_t PUP;
+  uint8_t DNC;
+  uint8_t SCH;
+  uint8_t GEO;
+  uint8_t RUN;
+};
+
+struct chocobo_t {
+  uint8_t unk1;
+  uint8_t unk2;
+  uint8_t unk3;
+  uint8_t unk4;
+};
+
+struct flags37_0_t {
+  uint32_t HideFlag : 1;
+  uint32_t SleepFlag : 1;
+  uint32_t GroundFlag : 1;
+  uint32_t CliPosInitFlag : 1;
+  uint32_t LfgFlag : 1;
+  uint32_t AnonymousFlag : 1;
+  uint32_t CfhFlag : 1;
+  uint32_t AwayFlag : 1;
+  uint32_t Gender : 1;
+  uint32_t unknown_1_9 : 1;
+  uint32_t unknown_1_10 : 1;
+  uint32_t GraphSize : 2;
+  uint32_t Chocobo_Index : 3;
+  uint32_t hpp : 8;
+  uint32_t PlayOnelineFlag : 1;
+  uint32_t LinkShellFlag : 1;
+  uint32_t LinkDeadFlag : 1;
+  uint32_t TargetOffFlag : 1;
+  uint32_t unknown_3_28 : 1;
+  uint32_t GmLevel : 3;
+};
+
+struct flags37_1_t {
+  uint32_t Speed : 12;
+  uint32_t Hackmove : 1;
+  uint32_t FreezeFlag : 1;
+  uint32_t unknown_1_14 : 1;
+  uint32_t InvisFlag : 1;
+  uint32_t GateBreachFlg : 1;
+  uint32_t SpeedBase : 8;
+  uint32_t unknown_3_25 : 4;
+  uint32_t BazaarFlag : 1;
+  uint32_t CharmFlag : 1;
+  uint32_t GmIconFlag : 1;
+};
+
+struct flags37_2_t {
+  uint32_t NamedFlag : 1;
+  uint32_t SingleFlag : 1;
+  uint32_t AutoPartyFlag : 1;
+  uint32_t PetIndex : 16;
+  uint32_t MotStopFlag : 1;
+  uint32_t CliPriorityFlag : 1;
+  uint32_t BallistaFlg : 8;
+  uint32_t unknown_3_29 : 3;
+};
+
+struct flags37_3_t {
+  uint32_t LfgMasterFlag : 1;
+  uint32_t TrialFlag : 1;
+  uint32_t unknown_0_2 : 1;
+  uint32_t NewCharacterFlag : 1;
+  uint32_t MentorFlag : 1;
+  uint32_t unknown_0_5 : 1;
+  uint32_t unknown_0_6 : 1;
+  uint32_t unknown_0_7 : 1;
+  uint32_t BallistaTeam : 8;
+  uint32_t unknown_2_16 : 16;
+};
+
+struct flags37_4_t {
+  uint8_t GeoIndiElement : 4;
+  uint8_t GeoIndiSize : 2;
+  uint8_t GeoIndiFlag : 1;
+  uint8_t JobMasterFlag : 1;
+};
+
+struct flags37_5_t {
+  uint8_t unknown_0_0 : 2;
+  uint8_t unknown_0_2 : 2;
+  uint8_t unknown_0_4 : 4;
+};
+
+struct flags37_6_t {
+  uint32_t unknown_0_0 : 1;
+  uint32_t unknown_0_1 : 1;
+  uint32_t unknown_0_2 : 1;
+  uint32_t unknown_0_3 : 1;
+  uint32_t unknown_0_4 : 1;
+  uint32_t unknown_0_5 : 1;
+  uint32_t unknown_0_6 : 1;
+  uint32_t unknown_0_7 : 25;
+};
+
+struct status_bits_t {
+  uint8_t Status1 : 2;
+  uint8_t Status2 : 2;
+  uint8_t Status3 : 2;
+  uint8_t Status4 : 2;
+  uint8_t Status5 : 2;
+  uint8_t Status6 : 2;
+  uint8_t Status7 : 2;
+  uint8_t Status8 : 2;
+  uint8_t Status9 : 2;
+  uint8_t Status10 : 2;
+  uint8_t Status11 : 2;
+  uint8_t Status12 : 2;
+  uint8_t Status13 : 2;
+  uint8_t Status14 : 2;
+  uint8_t Status15 : 2;
+  uint8_t Status16 : 2;
+  uint8_t Status17 : 2;
+  uint8_t Status18 : 2;
+  uint8_t Status19 : 2;
+  uint8_t Status20 : 2;
+  uint8_t Status21 : 2;
+  uint8_t Status22 : 2;
+  uint8_t Status23 : 2;
+  uint8_t Status24 : 2;
+  uint8_t Status25 : 2;
+  uint8_t Status26 : 2;
+  uint8_t Status27 : 2;
+  uint8_t Status28 : 2;
+  uint8_t Status29 : 2;
+  uint8_t Status30 : 2;
+  uint8_t Status31 : 2;
+  uint8_t Status32 : 2;
+};
+
+struct _GP_SERV_COMMAND_JOB_EXTRA_DATA_PUP {
+  uint8_t padding00[2];
+  uint8_t AutomatonHead;
+  uint8_t AutomatonFrame;
+  uint8_t EquippedAttachments[12];
+  uint16_t padding01;
+  uint32_t UnlockedHeads;
+  uint32_t UnlockedFrames;
+  uint8_t padding02[24];
+  uint32_t UnlockedAttachments[8];
+  char AutomatonName[16];
+  uint16_t AutomatonHP;
+  uint16_t AutomatonMaxHP;
+  uint16_t AutomatonMP;
+  uint16_t AutomatonMaxMP;
+  uint16_t MeleeSkill;
+  uint16_t MeleeSkillCap;
+  uint16_t RangedSkill;
+  uint16_t RangedSkillCap;
+  uint16_t MagicSkill;
+  uint16_t MagicSkillCap;
+  uint8_t padding03[10];
+  uint16_t BaseSTR;
+  uint16_t BonusSTR;
+  uint16_t BaseDEX;
+  uint16_t BonusDEX;
+  uint16_t BaseVIT;
+  uint16_t BonusVIT;
+  uint16_t BaseAGI;
+  uint16_t BonusAGI;
+  uint16_t BaseINT;
+  uint16_t BonusINT;
+  uint16_t BaseMND;
+  uint16_t BonusMND;
+  uint16_t BaseCHR;
+  uint16_t BonusCHR;
+  uint8_t ElemCapacity;
+};
+
+struct _GP_SERV_COMMAND_JOB_EXTRA_DATA_BLU {
+  uint8_t padding00[2];
+  uint8_t EquippedSpells[20];
+};
+
+struct _GP_SERV_COMMAND_JOB_EXTRA_DATA_MON {
+  uint8_t padding00[2];
+  uint16_t SpeciesId;
+  uint16_t EquippedInstincts[12];
+};

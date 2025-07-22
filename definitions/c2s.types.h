@@ -5,8 +5,6 @@ struct SAVE_BLACK {
   char Name[16];
 };
 
-typedef struct SAVE_BLACK SAVE_BLACK;
-
 struct GP_BLACK_EDIT {
   uint32_t ID;
   char Name[16];

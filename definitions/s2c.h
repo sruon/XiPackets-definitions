@@ -220,20 +220,37 @@ struct GP_SERV_COMMAND_CHAT_STD {
   char Mes[128];
 };
 
+struct _GP_MYROOM_DANCER_JOB_INFO {
+  uint16_t mon_no;
+  uint16_t face_no;
+  uint8_t mjob_no; // lookup="jobs"
+  uint8_t hair_no;
+  uint8_t size;
+  uint8_t sjob_no; // lookup="jobs"
+  uint32_t get_job_flag;
+  int8_t job_lev[16];
+  uint16_t bp_base[7];
+  int16_t bp_adj[7];
+  int32_t hpmax;
+  int32_t mpmax;
+  uint8_t sjobflg;
+  uint8_t Unknown00[3];
+};
+
 /// 0x001B
 struct GP_SERV_COMMAND_JOB_INFO {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t dancer[0x44];
-  uint8_t job_lev2[0x18];
+  _GP_MYROOM_DANCER_JOB_INFO dancer;
+  joblevels_t job_lev2; // TODO: not lining up correctly
   uint32_t encumbrance;
   uint8_t can_thumbs_up_mentor;
   uint8_t mentor_rank;
   uint8_t mastery_rank;
   uint8_t padding00;
   uint32_t job_mastery_flags;
-  uint8_t job_mastery_levels[0x18];
+  joblevels_t job_mastery_levels;
 };
 
 /// 0x001C
@@ -477,7 +494,7 @@ struct GP_SERV_COMMAND_RECIPE {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  union Data {
+  union data {
     _GP_SERV_COMMAND_RECIPE_Type_1 Type_1;
     _GP_SERV_COMMAND_RECIPE_Type_2 Type_2;
     _GP_SERV_COMMAND_RECIPE_Type_3 Type_3;
@@ -552,14 +569,14 @@ struct GP_SERV_COMMAND_SERVERSTATUS {
   uint16_t sync;
   uint8_t BufStatus[32];
   uint32_t UniqueNo; // lookup="@uniqueno"
-  flags0_t Flags0;
-  flags1_t Flags1;
+  flags37_0_t Flags0;
+  flags37_1_t Flags1;
   uint8_t server_status;
   uint8_t r;
   uint8_t g;
   uint8_t b;
-  flags2_t Flags2;
-  flags3_t Flags3;
+  flags37_2_t Flags2;
+  flags37_3_t Flags3;
   uint32_t dead_counter1;
   uint32_t dead_counter2;
   uint16_t costume_id;
@@ -571,11 +588,11 @@ struct GP_SERV_COMMAND_SERVERSTATUS {
   uint16_t monstrosity_info;
   uint8_t monstrosity_name_id1;
   uint8_t monstrosity_name_id2;
-  flags4_t Flags4;
+  flags37_4_t Flags4;
   uint8_t model_hitbox_size;
-  flags5_t Flags5;
+  flags37_5_t Flags5;
   uint8_t mount_id; // lookup="mounts"
-  flags6_t Flags6;
+  flags37_6_t Flags6;
 };
 
 /// 0x0038
@@ -718,7 +735,11 @@ struct GP_SERV_COMMAND_JOB_EXTRA_DATA {
   uint16_t sync;
   uint8_t JobId; // lookup="jobs"
   uint8_t IsSubJob;
-  uint8_t Data[154];
+  union data {
+    _GP_SERV_COMMAND_JOB_EXTRA_DATA_BLU JobId_16;
+    _GP_SERV_COMMAND_JOB_EXTRA_DATA_PUP JobId_18;
+    _GP_SERV_COMMAND_JOB_EXTRA_DATA_MON JobId_0;
+  };
 };
 
 /// 0x0047
@@ -766,7 +787,7 @@ struct GP_SERV_COMMAND_PBX_RESULT {
   int8_t ResParam1;
   int8_t ResParam2;
   int8_t ResParam3;
-  uint32_t Represent[128];
+  uint32_t Represent[1];
 };
 
 /// 0x004C
@@ -899,7 +920,7 @@ struct GP_SERV_COMMAND_ASSIST {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueNo; // lookup="@uniqueno"
-  uint32_t AssistNo;
+  uint32_t AssistNo; // lookup="@uniqueno"
   uint16_t ActIndex; // lookup="@actindex"
   uint16_t padding00;
 };
@@ -1057,7 +1078,7 @@ struct GP_SERV_COMMAND_ENTITY_UPDATE {
   uint16_t sync;
   uint16_t Mode : 6;
   uint16_t Length : 10;
-  union Data {
+  union data {
     _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_2 Mode_2;
     _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_3 Mode_3;
     _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4 Mode_4;
@@ -1149,6 +1170,48 @@ struct GP_SERV_COMMAND_UNKNOWN_0075 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
+//  uint32_t unknown_field_04;
+//  uint32_t timestamp;
+//  uint32_t duration;
+//  uint32_t warning;
+//
+//  union {
+//    struct {
+//      int32_t x;       // 0x14 - x * 1000
+//      int32_t z;       // 0x18 - z * 1000
+//      uint32_t radius; // 0x1C - radius * 1000
+//      uint32_t render; // 0x20 - render * 1000
+//    } flags_8;
+//  };
+//
+//  uint8_t flags;
+//  uint8_t blue_fence;
+//  uint8_t unknown_26_27[2];
+//
+//  union {
+//    struct {
+//      struct {
+//        uint32_t value;
+//        char name[16];
+//      } bars[6];
+//    } flags_2;
+//
+//    struct {
+//      int32_t MarchlandScore;
+//      int32_t StrongholdScore;
+//      uint32_t MarchlandProgress;
+//      uint32_t MaxMarchland;
+//      uint32_t StrongholdProgress;
+//      uint32_t MaxStronghold;
+//      uint32_t MarchlandOverride;
+//      uint32_t StrongholdOverride;
+//      uint8_t padding04[88];
+//    } flags_3;
+//  };
+//
+//  uint8_t padding_a0_a7[8];
+//  uint16_t HelpTitle;
+//  uint16_t HelpDescription;
 };
 
 /// 0x0076
@@ -1332,16 +1395,6 @@ struct GP_SERV_COMMAND_MYROOM_HARVEST {
   uint8_t padding00[3];
 };
 
-/// 0x009E
-struct GP_SERV_COMMAND_MYROOM_PLACE {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  int8_t job_lev[16];
-  int8_t curjob[2]; // lookup="jobs"
-  int8_t second;
-};
-
 /// 0x00A0
 struct GP_SERV_COMMAND_MAP_GROUP {
   uint16_t id : 9;
@@ -1475,7 +1528,7 @@ struct GP_SERV_COMMAND_EQUIP_INSPECT {
   uint8_t OptionFlag;
   // END eqHdr
 
-  union Data {
+  union data {
     _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_0 OptionFlag_0;
     _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_1 OptionFlag_1;
     _GP_SERV_COMMAND_EQUIP_INSPECT_Mode_2 OptionFlag_2;

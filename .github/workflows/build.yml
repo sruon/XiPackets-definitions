@@ -52,13 +52,19 @@ jobs:
         run: |
           gh release delete latest --yes || true
 
-      - name: Create/Update Release
+      - name: Update Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create latest \
-            --title "Latest Generated Files" \
-            --notes "Automatically generated packet definitions - Last updated $(date -u +'%Y-%m-%d %H:%M:%S UTC')" \
+            --title "Latest" \
+            --notes "Last updated $(date -u +'%Y-%m-%d %H:%M:%S UTC')" \
             --target ${{ github.sha }} \
-            xipackets.zip
+            xipackets.zip \
+            generated/c2s.lua \
+            generated/s2c.lua \
+            generated/c2s.json \
+            generated/s2c.json \
+            generated/c2s.ffi.lua \
+            generated/s2c.ffi.lua
