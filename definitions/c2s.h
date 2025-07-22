@@ -618,18 +618,6 @@ struct GP_CLI_COMMAND_GROUP_STRIKE {
   char sName[15];
 };
 
-/// 0x0072
-struct GP_CLI_COMMAND_GROUP_KICK {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint32_t UniqueNo; // lookup="@uniqueno"
-  uint16_t ActIndex; // lookup="@actindex"
-  uint8_t Kind;
-  uint8_t padding00;
-  char sName[15];
-};
-
 /// 0x0073
 struct GP_CLI_COMMAND_GROUP_CHANGE {
   uint16_t id : 9;
@@ -648,17 +636,6 @@ struct GP_CLI_COMMAND_GROUP_SOLICIT_RES {
   uint16_t sync;
   uint8_t Res;
   uint8_t padding00;
-};
-
-/// 0x0075
-struct GP_CLI_COMMAND_GROUP_TALK {
-  uint16_t id : 9;
-  uint16_t size : 7;
-  uint16_t sync;
-  uint16_t padding00;
-  uint8_t Kind;
-  uint8_t Attr;
-  char Str[128];
 };
 
 /// 0x0076
