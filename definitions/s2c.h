@@ -1042,7 +1042,15 @@ struct GP_SERV_COMMAND_MULTI_DATA {
   uint16_t sync;
   uint16_t type;
   uint16_t unknown00;
-  char data[128];
+  union data {
+    _GP_SERV_COMMAND_MULTI_DATA_merit type_2;
+    _GP_SERV_COMMAND_MULTI_DATA_mon1 type_3;
+    _GP_SERV_COMMAND_MULTI_DATA_mon2 type_4;
+    _GP_SERV_COMMAND_MULTI_DATA_job_points type_5;
+    _GP_SERV_COMMAND_MULTI_DATA_homepoints type_6;
+    _GP_SERV_COMMAND_MULTI_DATA_unity type_7;
+    _GP_SERV_COMMAND_MULTI_DATA_status_icons type_9;
+  };
 };
 
 /// 0x0064
@@ -1092,6 +1100,11 @@ struct GP_SERV_COMMAND_PET_UPDATE {
   uint16_t sync;
   uint16_t Mode : 6;
   uint16_t Length : 10;
+  union data {
+    _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_2 Mode_2;
+    _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_3 Mode_3;
+    _GP_SERV_COMMAND_ENTITY_UPDATE_Mode_4 Mode_4;
+  };
 };
 
 /// 0x0069
@@ -1100,6 +1113,11 @@ struct GP_SERV_COMMAND_CHOCOBO_RACING {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t Mode;
+  union data {
+    _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_1 Mode_1;
+    _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_2 Mode_2;
+    _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_4 Mode_4;
+  };
 };
 
 /// 0x006F
@@ -1111,12 +1129,13 @@ struct GP_SERV_COMMAND_COMBINE_ANS {
   int8_t Grade;
   uint8_t Count;
   uint8_t padding00;
-  uint16_t ItemNo; // lookup="items"
-  uint16_t BreakNo[8];
-  uint16_t UniqueNo; // lookup="@uniqueno"
-  uint16_t ActIndex; // lookup="@actindex"
-  char name[16];
-  uint8_t padding01[2];
+  uint16_t ItemNo;     // lookup="items"
+  uint16_t BreakNo[8]; // lookup="items"
+  int8_t UpKind[4];
+  int8_t UpLevel[4];
+  uint16_t CrystalNo;     // lookup="items"
+  uint16_t MaterialNo[8]; // lookup="items"
+  uint32_t padding01;
 };
 
 /// 0x0070
@@ -1128,10 +1147,10 @@ struct GP_SERV_COMMAND_COMBINE_INF {
   int8_t Grade;
   uint8_t Count;
   uint8_t padding00;
-  uint16_t ItemNo; // lookup="items"
-  uint16_t BreakNo[8];
-  uint16_t UniqueNo; // lookup="@uniqueno"
-  uint16_t ActIndex; // lookup="@actindex"
+  uint16_t ItemNo;     // lookup="items"
+  uint16_t BreakNo[8]; // lookup="items"
+  uint16_t UniqueNo;   // lookup="@uniqueno"
+  uint16_t ActIndex;   // lookup="@actindex"
   char name[16];
   uint8_t padding01[2];
 };
@@ -1142,6 +1161,10 @@ struct GP_SERV_COMMAND_CAMPAIGN_MAP {
   uint16_t size : 7;
   uint16_t sync;
   uint8_t Mode;
+  union data {
+    _GP_SERV_COMMAND_CAMPAIGN_MAP_Mode_2 Mode_2;
+    _GP_SERV_COMMAND_CAMPAIGN_MAP_Mode_3 Mode_3;
+  };
 };
 
 /// 0x0072
@@ -1170,48 +1193,48 @@ struct GP_SERV_COMMAND_UNKNOWN_0075 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-//  uint32_t unknown_field_04;
-//  uint32_t timestamp;
-//  uint32_t duration;
-//  uint32_t warning;
-//
-//  union {
-//    struct {
-//      int32_t x;       // 0x14 - x * 1000
-//      int32_t z;       // 0x18 - z * 1000
-//      uint32_t radius; // 0x1C - radius * 1000
-//      uint32_t render; // 0x20 - render * 1000
-//    } flags_8;
-//  };
-//
-//  uint8_t flags;
-//  uint8_t blue_fence;
-//  uint8_t unknown_26_27[2];
-//
-//  union {
-//    struct {
-//      struct {
-//        uint32_t value;
-//        char name[16];
-//      } bars[6];
-//    } flags_2;
-//
-//    struct {
-//      int32_t MarchlandScore;
-//      int32_t StrongholdScore;
-//      uint32_t MarchlandProgress;
-//      uint32_t MaxMarchland;
-//      uint32_t StrongholdProgress;
-//      uint32_t MaxStronghold;
-//      uint32_t MarchlandOverride;
-//      uint32_t StrongholdOverride;
-//      uint8_t padding04[88];
-//    } flags_3;
-//  };
-//
-//  uint8_t padding_a0_a7[8];
-//  uint16_t HelpTitle;
-//  uint16_t HelpDescription;
+  uint32_t unknown_field_04;
+  uint32_t timestamp;
+  uint32_t duration;
+  uint32_t warning;
+  //
+  //  union {
+  //    struct {
+  //      int32_t x;       // 0x14 - x * 1000
+  //      int32_t z;       // 0x18 - z * 1000
+  //      uint32_t radius; // 0x1C - radius * 1000
+  //      uint32_t render; // 0x20 - render * 1000
+  //    } flags_8;
+  //  };
+  //
+  //  uint8_t flags;
+  //  uint8_t blue_fence;
+  //  uint8_t unknown_26_27[2];
+  //
+  //  union {
+  //    struct {
+  //      struct {
+  //        uint32_t value;
+  //        char name[16];
+  //      } bars[6];
+  //    } flags_2;
+  //
+  //    struct {
+  //      int32_t MarchlandScore;
+  //      int32_t StrongholdScore;
+  //      uint32_t MarchlandProgress;
+  //      uint32_t MaxMarchland;
+  //      uint32_t StrongholdProgress;
+  //      uint32_t MaxStronghold;
+  //      uint32_t MarchlandOverride;
+  //      uint32_t StrongholdOverride;
+  //      uint8_t padding04[88];
+  //    } flags_3;
+  //  };
+  //
+  //  uint8_t padding_a0_a7[8];
+  //  uint16_t HelpTitle;
+  //  uint16_t HelpDescription;
 };
 
 /// 0x0076
@@ -1219,6 +1242,7 @@ struct GP_SERV_COMMAND_UNKNOWN_0076 {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
+  partymemberbuffs_t Members[5];
 };
 
 /// 0x0077
@@ -1228,7 +1252,7 @@ struct GP_SERV_COMMAND_ENTITY_VISIBILITY {
   uint16_t sync;
   uint8_t Flags;
   uint8_t padding00[3];
-  uint32_t Data[32];
+  uint32_t Entities[32];
 };
 
 /// 0x0078
@@ -1329,7 +1353,7 @@ struct GP_SERV_COMMAND_JOB_POINTS {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint16_t points[128];
+  jobpoint_t  points[64];
 };
 
 /// 0x0096
@@ -1429,7 +1453,10 @@ struct GP_SERV_COMMAND_COMMAND_DATA {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  uint8_t CommandDataTbl[224];
+  uint8_t WeaponSkillsDataTbl[64];
+  uint8_t JobAbilitiesDataTbl[64];
+  uint8_t PetAbilitiesDataTbl[64];
+  uint8_t JobTraitsDataTbl[32];
 };
 
 /// 0x00AD

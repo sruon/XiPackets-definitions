@@ -1,0 +1,152 @@
+name: PR Packet Diff
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'definitions/**'
+      - 'fields/**'
+      - 'packets/**'
+      - 'renderers/**'
+      - 'parse_clang.py'
+
+jobs:
+  packet-diff:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.7.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libclang-dev
+
+      - name: Install project dependencies
+        run: poetry install --no-interaction
+
+      - name: Download latest release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Create directory for baseline files
+          mkdir -p baseline
+          
+          # Download the latest release files (or fallback to empty if no release exists)
+          gh release download latest --pattern "c2s.lua" --dir baseline || echo "# No previous c2s.lua" > baseline/c2s.lua
+          gh release download latest --pattern "s2c.lua" --dir baseline || echo "# No previous s2c.lua" > baseline/s2c.lua
+          gh release download latest --pattern "c2s.json" --dir baseline || echo "{}" > baseline/c2s.json
+          gh release download latest --pattern "s2c.json" --dir baseline || echo "{}" > baseline/s2c.json
+
+      - name: Run packet parser
+        run: poetry run python parse_clang.py
+
+      - name: Generate diff report
+        id: diff
+        run: |
+          # Create diff report
+          echo "## 📦 Packet Definition Changes" > diff_report.md
+          echo "" >> diff_report.md
+          echo "This PR introduces the following changes to packet definitions:" >> diff_report.md
+          echo "" >> diff_report.md
+          
+          # Function to add diff section
+          add_diff_section() {
+            local file=$1
+            local title=$2
+          
+            if ! diff -q "baseline/$file" "generated/$file" >/dev/null 2>&1; then
+              echo "### 🔄 Changes in $title" >> diff_report.md
+              echo "" >> diff_report.md
+              echo "<details><summary>View diff</summary>" >> diff_report.md
+              echo "" >> diff_report.md
+              echo '```diff' >> diff_report.md
+              diff -u "baseline/$file" "generated/$file" | head -100 >> diff_report.md
+              echo '```' >> diff_report.md
+              echo "" >> diff_report.md
+              echo "</details>" >> diff_report.md
+              echo "" >> diff_report.md
+              return 0
+            else
+              echo "### ✅ No changes in $title" >> diff_report.md
+              echo "" >> diff_report.md
+              return 1
+            fi
+          }
+          
+          # Check each file and add diffs
+          changes_found=false
+          
+          if add_diff_section "c2s.lua" "Client-to-Server Packets (c2s.lua)"; then
+            changes_found=true
+          fi
+          
+          if add_diff_section "s2c.lua" "Server-to-Client Packets (s2c.lua)"; then
+            changes_found=true
+          fi
+          
+          if add_diff_section "c2s.json" "Client-to-Server JSON (c2s.json)"; then
+            changes_found=true
+          fi
+          
+          if add_diff_section "s2c.json" "Server-to-Client JSON (s2c.json)"; then
+            changes_found=true
+          fi
+          
+          if [ "$changes_found" = false ]; then
+            echo "### ✨ No packet definition changes detected" >> diff_report.md
+            echo "" >> diff_report.md
+            echo "This PR does not modify any packet definitions." >> diff_report.md
+          fi
+          
+          echo "" >> diff_report.md
+          echo "---" >> diff_report.md
+          echo "*Generated automatically by comparing against the latest release*" >> diff_report.md
+          
+          # Output for next step
+          echo "changes_found=$changes_found" >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '## 📦 Packet Definition Changes'
+
+      - name: Create or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: diff_report.md
+          edit-mode: replace
+
+      - name: Upload generated files as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-packet-definitions
+          path: |
+            generated/c2s.lua
+            generated/s2c.lua
+            generated/c2s.json
+            generated/s2c.json
+            generated/c2s.ffi.lua
+            generated/s2c.ffi.lua
+            generated/c2s.d.lua
+            generated/s2c.d.lua
+          retention-days: 30
