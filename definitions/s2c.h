@@ -412,11 +412,12 @@ struct GP_SERV_COMMAND_TALKNUMWORK {
   uint16_t size : 7;
   uint16_t sync;
   uint32_t UniqueNo; // lookup="@uniqueno"
+  int32_t num[4];
   uint16_t ActIndex; // lookup="@actindex"
   uint16_t MesNum;
   uint8_t Type;
   uint8_t Flag;
-  char String[32];
+  uint8_t String[32];
 };
 
 /// 0x002B
@@ -1353,7 +1354,7 @@ struct GP_SERV_COMMAND_JOB_POINTS {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
-  jobpoint_t  points[64];
+  jobpoint_t points[64];
 };
 
 /// 0x0096
