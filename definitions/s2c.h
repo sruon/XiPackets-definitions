@@ -1629,6 +1629,25 @@ struct GP_SERV_COMMAND_TROPHY_LIST {
   uint8_t padding02[3];
 };
 
+/// 0x00D3
+struct GP_SERV_COMMAND_TROPHY_SOLUTION {
+  uint16_t id : 9;
+  uint16_t size : 7;
+  uint16_t sync;
+  uint32_t LootUniqueNo;       // lookup="@uniqueno"
+  uint32_t EntryUniqueNo;      // lookup="@uniqueno"
+  uint16_t LootActIndex;       // lookup="@actindex"
+  int16_t LootPoint;           // PS2: LootPoint
+  uint16_t EntryActIndex : 15; // lookup="@actindex"
+  uint16_t EntryFlg : 1;       // PS2: EntryFlg
+  int16_t EntryPoint;          // PS2: EntryPoint
+  uint8_t TrophyItemIndex;     // PS2: TrophyItemIndex
+  uint8_t JudgeFlg;            // PS2: JudgeFlg; 1 won, 2 win error, 3 lost
+  char sLootName[16];          // PS2: sLootName
+  char sLootName2[16];         // XiPackets states 24; retail sends 16, as LSB has it
+  uint8_t padding00[6];
+};
+
 /// 0x00DD
 struct GP_SERV_COMMAND_GROUP_LIST {
   uint16_t id : 9;
