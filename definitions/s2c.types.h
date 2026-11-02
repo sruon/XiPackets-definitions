@@ -1198,3 +1198,64 @@ struct _GP_SERV_COMMAND_CHOCOBO_RACING_Mode_4 {
   uint8_t padding01;
   uint8_t ParamData1[192];
 };
+
+// 0x005E: one conquest region. Owner: 0 none, 1 San d'Oria, 2 Bastok, 3 Windurst, 4 beastmen.
+struct conquestregion_t {
+  uint8_t InfluenceRankingWithBeastmen;
+  uint8_t InfluenceRankingNoBeastmen;
+  uint8_t InfluenceGraphics;
+  uint8_t Owner;
+};
+
+struct conquestdata_t {
+  uint8_t Balance;  // each nation's rank, 2 bits each from San d'Oria: 1 first, 2 second, 3 third
+  uint8_t Alliance; // bits of the allied nations: San d'Oria, Bastok, Windurst
+  uint8_t padding06[20];
+  conquestregion_t Regions[27];
+  uint8_t CurrentRegionSandoria; // the character's region: each nation's share, beastmen counted
+  uint8_t CurrentRegionBastok;
+  uint8_t CurrentRegionWindurst;
+  uint8_t CurrentRegionSandoriaPct; // the same without the beastmen
+  uint8_t CurrentRegionBastokPct;
+  uint8_t CurrentRegionWindurstPct;
+  uint8_t NextTally; // Vana'diel days to the weekly tally
+  uint8_t padding8D[3];
+  uint32_t ConquestPoints;
+  uint8_t CurrentRegionBeastmen;
+  uint8_t padding95[7];
+  uint8_t Unknown9C;
+  uint8_t padding9D[3];
+};
+
+// Orders: Al Zahbi 0 defend, 1 intercept, 2 infiltrate, 3 recover. Beastmen 0 train, 1 advance, 2 attack,
+// 3 retreat, 4 defend, 5 prepare. AstralCandescence: who holds it, 0 Al Zahbi, 1 Mamook, 2 Halvung, 3 Arrapago.
+struct besiegedoverview_t {
+  uint32_t AstralCandescence : 2;
+  uint32_t AlZahbiOrders : 2;
+  uint32_t MamookLevel : 4;
+  uint32_t HalvungLevel : 4;
+  uint32_t ArrapagoLevel : 4;
+  uint32_t MamookOrders : 3;
+  uint32_t HalvungOrders : 3;
+  uint32_t ArrapagoOrders : 3;
+  uint32_t Unknown : 1;
+  uint32_t unused : 6;
+};
+
+struct besiegedstronghold_t {
+  uint32_t Orders : 3;
+  uint32_t Forces : 8;
+  uint32_t Level : 4;
+  uint32_t Mirrors : 4;
+  uint32_t Unknown : 1;
+  uint32_t Prisoners : 4;
+  uint32_t unused : 8;
+};
+
+struct besiegeddata_t {
+  besiegedoverview_t Overview;
+  besiegedstronghold_t MamookStronghold;
+  besiegedstronghold_t HalvungStronghold;
+  besiegedstronghold_t ArrapagoStronghold;
+  uint32_t ImperialStanding;
+};

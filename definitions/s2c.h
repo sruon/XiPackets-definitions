@@ -999,6 +999,8 @@ struct GP_SERV_COMMAND_CONQUEST {
   uint16_t id : 9;
   uint16_t size : 7;
   uint16_t sync;
+  conquestdata_t Conquest;
+  besiegeddata_t Besieged;
 };
 
 /// 0x005F
