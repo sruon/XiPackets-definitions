@@ -1357,6 +1357,17 @@ struct GP_SERV_COMMAND_JOB_POINTS {
   jobpoint_t points[64];
 };
 
+/// 0x008E
+struct GP_SERV_COMMAND_ALTER_EGO_POINTS {
+  uint16_t id : 9;
+  uint16_t size : 7;
+  uint16_t sync;
+  uint16_t points;     // Alter Ego points to spend
+  uint8_t padding06[2];
+  uint8_t count[32];   // upgrades bought, by the Kind C2S 0x00C1 sends: 8 HP to 18 magic skills
+  uint16_t next[32];   // points the next upgrade costs, by the same Kind
+};
+
 /// 0x0096
 struct GP_SERV_COMMAND_MYROOM_ENTER {
   uint16_t id : 9;
@@ -1646,6 +1657,20 @@ struct GP_SERV_COMMAND_TROPHY_SOLUTION {
   char sLootName[16];          // PS2: sLootName
   char sLootName2[16];         // XiPackets states 24; retail sends 16, as LSB has it
   uint8_t padding00[6];
+};
+
+/// 0x00DC
+struct GP_SERV_COMMAND_GROUP_SOLICIT_REQ {
+  uint16_t id : 9;
+  uint16_t size : 7;
+  uint16_t sync;
+  uint32_t UniqueNo; // lookup="@uniqueno"
+  uint16_t ActIndex; // lookup="@actindex"
+  uint8_t AnonFlag;  // PS2: AnonFlag; XiPackets: 1 anon, 2 hide the message; retail sets other bits too
+  uint8_t Kind;      // PS2: Kind; XiPackets: 5 alliance, else party
+  char sName[16];    // PS2: sName
+  uint16_t RaceNo;   // lookup="raceandgender"
+  uint16_t unknown1E; // XiPackets: padding; retail sends nonzero values
 };
 
 /// 0x00DD
