@@ -1,5 +1,8 @@
 # XiPackets-definitions
 
+> [!IMPORTANT]
+> This repository is archived and no longer updated. Packet definitions now live in [ffxi-dev/packets](https://github.com/ffxi-dev/packets). Existing releases stay available.
+
 XiPackets definitions in various formats, ready to be used for various programs and addons.
 - Lua definitions for Ashita addons
 - Lua FFI definitions
